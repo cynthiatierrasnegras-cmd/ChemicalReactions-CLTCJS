@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atomic Models — Self-Guided Activity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:#0d0f14;--surface:#13161e;--surface2:#1a1e2a;--border:#2a2f3f;
+      --gold:#f0c040;--teal:#3dd6c8;--pink:#ff5f8f;--blue:#5b8fff;
+      --proton:#ff6b5b;--neutron:#8a8fa8;--electron:#5b8fff;
+      --text:#e8eaf2;--muted:#7a7f96;--green:#4ade80;
+      --fhead:'Syne',sans-serif;--fmono:'Space Mono',monospace;--r:8px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--fmono);font-size:14px;line-height:1.7;}
+
+    #progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--teal));width:0%;transition:width .4s ease;z-index:100;}
+
+    header{background:linear-gradient(160deg,#0b0d12,#141826,#0d1020);border-bottom:2px solid var(--gold);padding:36px 20px 30px;position:relative;overflow:hidden;}
+    header::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(240,192,64,.05);pointer-events:none;}
+    .h-tag{font-size:10px;letter-spacing:.15em;color:var(--teal);text-transform:uppercase;margin-bottom:12px;}
+    header h1{font-family:var(--fhead);font-size:2rem;font-weight:800;color:#fff;line-height:1.1;}
+    header h1 span{color:var(--gold);}
+    .h-sub{margin-top:10px;font-size:12px;color:var(--muted);}
+    .timer-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.3);border-radius:20px;padding:5px 14px;font-size:11px;color:var(--gold);margin-top:14px;}
+
+    main{max-width:600px;margin:0 auto;padding:24px 16px 80px;display:flex;flex-direction:column;gap:20px;}
+
+    /* STEPS */
+    .step{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .3s;}
+    .step.active{border-color:var(--gold);}
+    .step.done{border-color:var(--green);opacity:.85;}
+    .step.locked{opacity:.4;pointer-events:none;}
+    .step-header{display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;user-select:none;}
+    .step-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fhead);font-size:.9rem;font-weight:800;flex-shrink:0;background:var(--surface2);border:2px solid var(--border);color:var(--muted);transition:all .3s;}
+    .step.active .step-num{background:var(--gold);border-color:var(--gold);color:#000;}
+    .step.done   .step-num{background:var(--green);border-color:var(--green);color:#000;}
+    .step-title-wrap{flex:1;}
+    .step-label{font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;}
+    .step.active .step-label{color:var(--gold);}
+    .step.done   .step-label{color:var(--green);}
+    .step-title{font-family:var(--fhead);font-size:1rem;font-weight:700;color:#fff;}
+    .step-time{font-size:10px;color:var(--muted);white-space:nowrap;}
+    .step-body{display:none;padding:0 16px 20px;border-top:1px solid var(--border);}
+    .step.active .step-body,.step.done .step-body{display:block;}
+
+    /* CARDS */
+    .info-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-top:14px;}
+    .info-card p{font-size:12px;color:var(--muted);margin-top:6px;}
+    .card-title{font-family:var(--fhead);font-size:.9rem;font-weight:700;color:#fff;margin-bottom:4px;}
+
+    /* MODELS SCROLL */
+    .models-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;margin-top:14px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .models-scroll::-webkit-scrollbar{display:none;}
+    .model-tile{flex-shrink:0;width:150px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;}
+    .model-year{font-size:10px;color:var(--teal);letter-spacing:.1em;}
+    .model-who{font-family:var(--fhead);font-size:.8rem;font-weight:700;color:#fff;}
+    .model-tag{font-size:10px;color:var(--muted);font-style:italic;}
+    .model-idea{font-size:10px;color:var(--gold);background:rgba(240,192,64,.08);border-radius:10px;padding:4px 8px;width:100%;}
+    .scroll-hint{font-size:10px;color:var(--muted);text-align:right;margin-top:6px;letter-spacing:.08em;}
+
+    /* ATOM VISUALS */
+    .atom-v{width:90px;height:76px;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .solid-sphere{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#999,#333);box-shadow:0 3px 12px rgba(0,0,0,.5);}
+    .pudding{width:64px;height:56px;border-radius:50%;background:radial-gradient(circle at 40% 40%,rgba(91,143,255,.35),rgba(40,60,120,.4));border:2px solid rgba(91,143,255,.3);position:relative;}
+    .e-dot-t{width:7px;height:7px;border-radius:50%;background:var(--electron);position:absolute;box-shadow:0 0 5px var(--electron);}
+    .ruth{position:relative;}
+    .nuc-s{width:11px;height:11px;border-radius:50%;background:var(--proton);box-shadow:0 0 7px var(--proton);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;}
+    .o-ring{border-radius:50%;border:1px solid rgba(91,143,255,.25);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+    .o-ring.r1{width:48px;height:36px;}
+    .o-ring.r2{width:82px;height:64px;}
+    .e-s{width:6px;height:6px;border-radius:50%;background:var(--electron);box-shadow:0 0 4px var(--electron);position:absolute;}
+    .ea{top:6%;left:65%;}
+    .eb{bottom:8%;left:10%;}
+    .bohr-w{position:relative;}
+    .bohr-nuc{width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff9b5b,var(--proton));position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;box-shadow:0 0 8px var(--proton);}
+    .bohr-orb{position:absolute;left:50%;top:50%;border-radius:50%;border:1.5px solid rgba(91,143,255,.28);animation:spin 4s linear infinite;}
+    .bohr-orb.bo1{width:32px;height:32px;margin:-16px;animation-duration:2s;}
+    .bohr-orb.bo2{width:54px;height:54px;margin:-27px;animation-duration:3.5s;}
+    .bohr-orb.bo3{width:78px;height:78px;margin:-39px;animation-duration:5s;}
+    .bohr-e{width:6px;height:6px;border-radius:50%;background:var(--electron);box-shadow:0 0 5px var(--electron);position:absolute;top:-3px;left:calc(50% - 3px);}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .q-atom{position:relative;}
+    .q-nuc{width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;}
+    .q-cl{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);animation:pulse 2.5s ease-in-out infinite;}
+    .q-cl.c1{width:36px;height:36px;background:radial-gradient(circle,rgba(61,214,200,.22),transparent 70%);animation-delay:0s;}
+    .q-cl.c2{width:60px;height:60px;background:radial-gradient(circle,rgba(61,214,200,.13),transparent 70%);animation-delay:.5s;}
+    .q-cl.c3{width:84px;height:84px;background:radial-gradient(circle,rgba(61,214,200,.06),transparent 70%);animation-delay:1s;}
+    @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+
+    /* PARTICLES */
+    .particle-row{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+    .p-card{border-radius:6px;border:1px solid var(--border);padding:14px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
+    .p-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+    .pc-proton{background:rgba(255,107,91,.06);}
+    .pc-proton::before{background:var(--proton);}
+    .pc-neutron{background:rgba(138,143,168,.06);}
+    .pc-neutron::before{background:var(--neutron);}
+    .pc-electron{background:rgba(91,143,255,.06);}
+    .pc-electron::before{background:var(--electron);}
+    .p-symbol{font-family:var(--fhead);font-size:1.6rem;font-weight:800;width:42px;text-align:center;flex-shrink:0;}
+    .pc-proton .p-symbol{color:var(--proton);}
+    .pc-neutron .p-symbol{color:var(--neutron);}
+    .pc-electron .p-symbol{color:var(--electron);}
+    .p-info{flex:1;}
+    .p-name{font-family:var(--fhead);font-size:.9rem;font-weight:700;color:#fff;margin-bottom:4px;}
+    .p-facts{display:flex;flex-wrap:wrap;gap:6px;}
+    .p-fact{font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid var(--border);color:var(--muted);}
+    .pc-proton   .p-fact.hl{background:rgba(255,107,91,.15);border-color:var(--proton);color:var(--proton);}
+    .pc-neutron  .p-fact.hl{background:rgba(138,143,168,.15);border-color:var(--neutron);color:var(--neutron);}
+    .pc-electron .p-fact.hl{background:rgba(91,143,255,.15);border-color:var(--electron);color:var(--electron);}
+
+    /* SIZE */
+    .size-row{display:flex;align-items:center;justify-content:space-around;margin-top:14px;gap:8px;flex-wrap:wrap;}
+    .size-item{text-align:center;}
+    .size-icon{font-size:2.2rem;}
+    .size-lbl{font-size:11px;color:var(--muted);margin-top:4px;}
+    .size-arr{font-size:1.4rem;color:var(--pink);}
+
+    /* Z & A */
+    .za-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+    .za-box{flex:1;min-width:130px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:6px;}
+    .za-letter{font-family:var(--fhead);font-size:2.4rem;font-weight:800;line-height:1;}
+    .z-col .za-letter{color:var(--proton);}
+    .a-col .za-letter{color:var(--gold);}
+    .za-name{font-family:var(--fhead);font-size:.85rem;font-weight:700;color:#fff;}
+    .za-def{font-size:11px;color:var(--muted);}
+    .za-ex{font-size:11px;color:var(--teal);background:rgba(61,214,200,.07);border:1px solid rgba(61,214,200,.2);border-radius:4px;padding:6px 10px;margin-top:4px;text-align:center;}
+    .notation-box{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;margin-top:10px;width:100%;}
+    .notation-big{display:flex;align-items:center;gap:3px;font-family:var(--fhead);line-height:1;}
+    .n-scripts{display:flex;flex-direction:column;font-size:1.1rem;}
+    .n-scripts sup{color:var(--gold);}
+    .n-scripts sub{color:var(--proton);}
+    .n-X{font-size:2.6rem;font-weight:800;color:var(--teal);}
+    .n-lbl{font-size:10px;color:var(--muted);}
+    .n-ex{font-size:11px;color:var(--teal);background:rgba(61,214,200,.07);border:1px solid rgba(61,214,200,.2);border-radius:4px;padding:6px 10px;width:100%;line-height:1.8;}
+
+    /* QUIZ */
+    .quiz-wrap{margin-top:14px;display:flex;flex-direction:column;gap:20px;}
+    .q-block{display:flex;flex-direction:column;gap:8px;}
+    .q-text{font-size:13px;color:var(--text);background:var(--surface2);border-left:3px solid var(--blue);padding:10px 12px;border-radius:0 6px 6px 0;}
+    .q-options{display:flex;flex-direction:column;gap:6px;}
+    .q-opt{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--text);cursor:pointer;transition:all .2s;text-align:left;font-family:var(--fmono);}
+    .q-opt:hover{border-color:var(--blue);color:var(--blue);}
+    .q-opt.correct{border-color:var(--green);background:rgba(74,222,128,.1);color:var(--green);pointer-events:none;}
+    .q-opt.wrong{border-color:var(--pink);background:rgba(255,95,143,.1);color:var(--pink);pointer-events:none;}
+    .q-opt.disabled{pointer-events:none;opacity:.45;}
+    .q-feedback{font-size:11px;padding:6px 10px;border-radius:4px;display:none;}
+    .q-feedback.show{display:block;}
+    .q-feedback.ok{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.3);}
+    .q-feedback.err{background:rgba(255,95,143,.1);color:var(--pink);border:1px solid rgba(255,95,143,.3);}
+
+    /* TABLE */
+    .fill-table-wrap{overflow-x:auto;margin-top:14px;}
+    .fill-table{width:100%;border-collapse:collapse;font-size:11px;min-width:340px;}
+    .fill-table th{background:rgba(91,143,255,.12);color:var(--blue);padding:8px 10px;text-align:center;font-size:9px;letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--border);}
+    .fill-table td{padding:8px 6px;border-bottom:1px solid var(--border);color:var(--muted);text-align:center;}
+    .fill-table input{width:52px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--fmono);font-size:12px;padding:4px 6px;text-align:center;outline:none;transition:border-color .2s;}
+    .fill-table input:focus{border-color:var(--blue);}
+    .fill-table input.correct{border-color:var(--green);color:var(--green);}
+    .fill-table input.wrong{border-color:var(--pink);color:var(--pink);}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#000;font-family:var(--fmono);font-size:12px;font-weight:700;padding:10px 20px;border-radius:6px;border:none;cursor:pointer;margin-top:12px;transition:opacity .2s;}
+    .btn:hover{opacity:.88;}
+    .next-btn{display:none;width:100%;padding:12px;background:linear-gradient(90deg,var(--gold),#e6a800);color:#000;font-family:var(--fhead);font-size:.95rem;font-weight:800;border:none;border-radius:6px;cursor:pointer;margin-top:16px;text-align:center;transition:opacity .2s;}
+    .next-btn:hover{opacity:.88;}
+    .next-btn.visible{display:block;}
+
+    /* BRIDGE */
+    .bridge-row{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+    .bridge-tile{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px;display:flex;align-items:flex-start;gap:12px;}
+    .bridge-icon{font-size:1.6rem;flex-shrink:0;}
+    .bridge-tile h3{font-family:var(--fhead);font-size:.9rem;font-weight:700;color:#fff;margin-bottom:4px;}
+    .bridge-tile p{font-size:11px;color:var(--muted);}
+
+    /* REFLECTION */
+    .ref-grid{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+    .ref-box{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px;display:flex;align-items:flex-start;gap:12px;}
+    .ref-n{font-family:var(--fhead);font-size:2rem;font-weight:800;color:var(--pink);line-height:1;flex-shrink:0;}
+    .ref-box p{font-size:12px;color:var(--muted);}
+
+    /* CONGRATS */
+    .congrats{display:none;text-align:center;padding:28px 20px;background:var(--surface);border:1px solid var(--green);border-radius:var(--r);}
+    .congrats.show{display:block;}
+    .congrats-icon{font-size:3rem;margin-bottom:12px;}
+    .congrats h2{font-family:var(--fhead);font-size:1.4rem;font-weight:800;color:var(--green);margin-bottom:8px;}
+    .congrats p{font-size:12px;color:var(--muted);}
+
+    /* TIP & DIVIDER */
+    .tip{font-size:11px;color:var(--teal);background:rgba(61,214,200,.07);border:1px solid rgba(61,214,200,.2);border-radius:4px;padding:8px 12px;margin-top:10px;}
+    .divider{border:none;border-top:1px solid var(--border);margin:14px 0;}
+
+    footer{text-align:center;padding:24px 16px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);letter-spacing:.08em;}
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<header>
+  <div class="h-tag">Chemical Reactions · 4th Semester · Self-Guided</div>
+  <h1>Atomic Models<br/><span>&amp; Atomic Structure</span></h1>
+  <p class="h-sub">Read each section carefully, then complete the activity before moving on.</p>
+  <div class="timer-chip">⏱ 45 minutes · Work at your own pace</div>
+</header>
+
+<main>
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step-1">
+    <div class="step-header" onclick="toggleStep(1)">
+      <div class="step-num">1</div>
+      <div class="step-title-wrap">
+        <div class="step-label">Step 1 · Read</div>
+        <div class="step-title">What is an atom?</div>
+      </div>
+      <div class="step-time">~5 min</div>
+    </div>
+    <div class="step-body">
+      <div class="info-card">
+        <div class="card-title">⚛ The atom</div>
+        <p>An <strong style="color:var(--text)">atom</strong> is the smallest unit of matter that still has the chemical properties of an element.</p>
+        <p style="margin-top:8px">Everything around you — air, water, your phone — is made of atoms. They are so small that a single grain of sand contains about <strong style="color:var(--gold)">10 quintillion atoms</strong>.</p>
+      </div>
+      <div class="info-card">
+        <div class="card-title">💡 Key idea for this class</div>
+        <p>Scientists could not see atoms directly, so they used <strong style="color:var(--text)">experiments</strong> to figure out what atoms look like. Each time they found new evidence, they <strong style="color:var(--gold)">updated the model</strong>. This is how science works.</p>
+      </div>
+      <button class="next-btn visible" onclick="completeStep(1)">I understand → Atomic Models ▶</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step locked" id="step-2">
+    <div class="step-header" onclick="toggleStep(2)">
+      <div class="step-num">2</div>
+      <div class="step-title-wrap">
+        <div class="step-label">Step 2 · Read</div>
+        <div class="step-title">5 Atomic Models</div>
+      </div>
+      <div class="step-time">~8 min</div>
+    </div>
+    <div class="step-body">
+      <p style="font-size:12px;color:var(--muted)">Swipe right to see all 5 models →</p>
+      <div class="models-scroll">
+
+        <div class="model-tile">
+          <div class="model-year">1803</div>
+          <div class="model-who">John Dalton</div>
+          <div class="atom-v"><div class="solid-sphere"></div></div>
+          <div class="model-tag">Solid Sphere</div>
+          <div class="model-idea">Atoms are solid, indivisible balls.</div>
+        </div>
+
+        <div class="model-tile">
+          <div class="model-year">1897</div>
+          <div class="model-who">J.J. Thomson</div>
+          <div class="atom-v">
+            <div class="pudding">
+              <div class="e-dot-t" style="top:26%;left:16%"></div>
+              <div class="e-dot-t" style="top:52%;left:56%"></div>
+              <div class="e-dot-t" style="top:16%;left:60%"></div>
+              <div class="e-dot-t" style="top:62%;left:26%"></div>
+            </div>
+          </div>
+          <div class="model-tag">Plum Pudding</div>
+          <div class="model-idea">Electrons inside a positive cloud.</div>
+        </div>
+
+        <div class="model-tile">
+          <div class="model-year">1911</div>
+          <div class="model-who">Rutherford</div>
+          <div class="atom-v ruth">
+            <div class="nuc-s"></div>
+            <div class="o-ring r1"></div>
+            <div class="o-ring r2"></div>
+            <div class="e-s ea"></div>
+            <div class="e-s eb"></div>
+          </div>
+          <div class="model-tag">Nuclear Model</div>
+          <div class="model-idea">Tiny dense nucleus. Mostly empty space.</div>
+        </div>
+
+        <div class="model-tile">
+          <div class="model-year">1913</div>
+          <div class="model-who">Niels Bohr</div>
+          <div class="atom-v bohr-w">
+            <div class="bohr-nuc"></div>
+            <div class="bohr-orb bo1"><div class="bohr-e"></div></div>
+            <div class="bohr-orb bo2"><div class="bohr-e" style="animation-delay:-1.5s"></div></div>
+            <div class="bohr-orb bo3"><div class="bohr-e" style="animation-delay:-3s"></div></div>
+          </div>
+          <div class="model-tag">Planetary Model</div>
+          <div class="model-idea">Electrons orbit in fixed energy levels (shells).</div>
+        </div>
+
+        <div class="model-tile">
+          <div class="model-year">1926</div>
+          <div class="model-who">Schrodinger</div>
+          <div class="atom-v q-atom">
+            <div class="q-nuc"></div>
+            <div class="q-cl c1"></div>
+            <div class="q-cl c2"></div>
+            <div class="q-cl c3"></div>
+          </div>
+          <div class="model-tag">Quantum Model ✓</div>
+          <div class="model-idea">Electrons in probability clouds. Current model.</div>
+        </div>
+
+      </div>
+      <p class="scroll-hint">← swipe to explore →</p>
+      <div class="tip">💡 <strong>Bohr's model</strong> is the most important for what comes next — his energy levels (shells) are what we use in electron configuration.</div>
+      <button class="next-btn visible" onclick="completeStep(2)">Got it → Quick Quiz ▶</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: QUIZ -->
+  <div class="step locked" id="step-3">
+    <div class="step-header" onclick="toggleStep(3)">
+      <div class="step-num">3</div>
+      <div class="step-title-wrap">
+        <div class="step-label">Step 3 · Check yourself</div>
+        <div class="step-title">Models Quiz</div>
+      </div>
+      <div class="step-time">~5 min</div>
+    </div>
+    <div class="step-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:4px">Answer all 3 questions to continue.</p>
+      <div class="quiz-wrap">
+
+        <div class="q-block" id="q1">
+          <div class="q-text">1. Who proposed that atoms are tiny, solid, indivisible spheres?</div>
+          <div class="q-options">
+            <button class="q-opt" onclick="answer('q1',this,false,'Thomson discovered electrons — atoms are not solid spheres.')">J.J. Thomson</button>
+            <button class="q-opt" onclick="answer('q1',this,true,'Correct! Dalton (1803) proposed the solid sphere model.')">John Dalton</button>
+            <button class="q-opt" onclick="answer('q1',this,false,'Rutherford discovered the nucleus, not the solid sphere idea.')">Rutherford</button>
+          </div>
+          <div class="q-feedback" id="q1-fb"></div>
+        </div>
+
+        <div class="q-block" id="q2">
+          <div class="q-text">2. Which experiment showed that most of the atom is empty space?</div>
+          <div class="q-options">
+            <button class="q-opt" onclick="answer('q2',this,false,'The cathode ray tube showed electrons exist, not empty space.')">Cathode ray tube</button>
+            <button class="q-opt" onclick="answer('q2',this,false,'The emission spectrum showed quantized energy, not empty space.')">Hydrogen emission spectrum</button>
+            <button class="q-opt" onclick="answer('q2',this,true,'Correct! Most alpha particles passed straight through the gold foil.')">Gold foil experiment</button>
+          </div>
+          <div class="q-feedback" id="q2-fb"></div>
+        </div>
+
+        <div class="q-block" id="q3">
+          <div class="q-text">3. Which atomic model do scientists use today?</div>
+          <div class="q-options">
+            <button class="q-opt" onclick="answer('q3',this,false,'Bohr is useful but not current — it only works for hydrogen.')">Bohr Planetary Model</button>
+            <button class="q-opt" onclick="answer('q3',this,true,'Correct! The Quantum Mechanical Model uses probability clouds called orbitals.')">Quantum Mechanical Model</button>
+            <button class="q-opt" onclick="answer('q3',this,false,'Rutherford was replaced because it could not explain electron stability.')">Rutherford Nuclear Model</button>
+          </div>
+          <div class="q-feedback" id="q3-fb"></div>
+        </div>
+
+      </div>
+      <button class="next-btn" id="next-3" onclick="completeStep(3)">Continue → Inside the Atom ▶</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: PARTICLES -->
+  <div class="step locked" id="step-4">
+    <div class="step-header" onclick="toggleStep(4)">
+      <div class="step-num">4</div>
+      <div class="step-title-wrap">
+        <div class="step-label">Step 4 · Read</div>
+        <div class="step-title">Subatomic Particles</div>
+      </div>
+      <div class="step-time">~6 min</div>
+    </div>
+    <div class="step-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:4px">Every atom has three types of particles inside it.</p>
+      <div class="particle-row">
+        <div class="p-card pc-proton">
+          <div class="p-symbol">p+</div>
+          <div class="p-info">
+            <div class="p-name">Proton</div>
+            <div class="p-facts">
+              <span class="p-fact hl">Charge: +1</span>
+              <span class="p-fact hl">Mass: 1 amu</span>
+              <span class="p-fact">Location: Nucleus</span>
+              <span class="p-fact">Defines the element</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-card pc-neutron">
+          <div class="p-symbol">n0</div>
+          <div class="p-info">
+            <div class="p-name">Neutron</div>
+            <div class="p-facts">
+              <span class="p-fact hl">Charge: 0</span>
+              <span class="p-fact hl">Mass: 1 amu</span>
+              <span class="p-fact">Location: Nucleus</span>
+              <span class="p-fact">Adds mass only</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-card pc-electron">
+          <div class="p-symbol">e-</div>
+          <div class="p-info">
+            <div class="p-name">Electron</div>
+            <div class="p-facts">
+              <span class="p-fact hl">Charge: -1</span>
+              <span class="p-fact hl">Mass: ~0</span>
+              <span class="p-fact">Location: Electron cloud</span>
+              <span class="p-fact">Controls reactions</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="divider"/>
+      <div class="info-card" style="margin-top:0">
+        <div class="card-title">How big is the nucleus compared to the atom?</div>
+        <div class="size-row">
+          <div class="size-item"><div class="size-icon">🏟️</div><div class="size-lbl">Atom = stadium</div></div>
+          <div class="size-arr">→</div>
+          <div class="size-item"><div class="size-icon">⚪</div><div class="size-lbl">Nucleus = marble</div></div>
+          <div class="size-arr">→</div>
+          <div class="size-item"><div class="size-icon">🪰</div><div class="size-lbl">Electrons = flies</div></div>
+        </div>
+        <p style="margin-top:10px;text-align:center">The atom is <strong style="color:var(--gold)">mostly empty space.</strong></p>
+      </div>
+      <button class="next-btn visible" onclick="completeStep(4)">Got it → Atomic Number ▶</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Z AND A -->
+  <div class="step locked" id="step-5">
+    <div class="step-header" onclick="toggleStep(5)">
+      <div class="step-num">5</div>
+      <div class="step-title-wrap">
+        <div class="step-label">Step 5 · Read</div>
+        <div class="step-title">Atomic Number (Z) and Mass Number (A)</div>
+      </div>
+      <div class="step-time">~5 min</div>
+    </div>
+    <div class="step-body">
+      <div class="za-row">
+        <div class="za-box z-col">
+          <div class="za-letter">Z</div>
+          <div class="za-name">Atomic Number</div>
+          <div class="za-def">= number of protons</div>
+          <div class="za-def">Neutral atom: Z = electrons too</div>
+          <div class="za-ex">Carbon: Z = 6<br/>6 protons, 6 electrons</div>
+        </div>
+        <div class="za-box a-col">
+          <div class="za-letter">A</div>
+          <div class="za-name">Mass Number</div>
+          <div class="za-def">= protons + neutrons</div>
+          <div class="za-def">Neutrons = A minus Z</div>
+          <div class="za-ex">Carbon-12: A=12, Z=6<br/>12-6 = 6 neutrons</div>
+        </div>
+      </div>
+      <div class="notation-box">
+        <div class="notation-big">
+          <div class="n-scripts"><sup>A</sup><sub>Z</sub></div>
+          <div class="n-X">X</div>
+        </div>
+        <div class="n-lbl">Standard nuclide notation</div>
+        <div class="n-ex">C-12 = Carbon-12<br/>6 protons · 6 neutrons · 6 electrons</div>
+      </div>
+      <div class="tip" style="margin-top:12px">Connection to electron configuration: Z tells you how many electrons an atom has. Filling those electrons into energy levels, shell by shell, is exactly what electron configuration is about.</div>
+      <button class="next-btn visible" onclick="completeStep(5)">Ready → Practice ▶</button>
+    </div>
+  </div>
+
+  <!-- STEP 6: TABLE -->
+  <div class="step locked" id="step-6">
+    <div class="step-header" onclick="toggleStep(6)">
+      <div class="step-num">6</div>
+      <div class="step-title-wrap">
+        <div class="step-label">Step 6 · Activity</div>
+        <div class="step-title">Particle Detective</div>
+      </div>
+      <div class="step-time">~8 min</div>
+    </div>
+    <div class="step-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:4px">Fill in the missing values. All atoms are neutral. Remember: <strong style="color:var(--text)">Neutrons = A - Z</strong></p>
+      <div class="fill-table-wrap">
+        <table class="fill-table" id="particle-table">
+          <thead>
+            <tr>
+              <th>Element</th><th>Z</th><th>A</th><th>Protons</th><th>Neutrons</th><th>Electrons</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Carbon-12</td><td>6</td><td>12</td>
+              <td><input type="number" data-ans="6"  placeholder="?"/></td>
+              <td><input type="number" data-ans="6"  placeholder="?"/></td>
+              <td><input type="number" data-ans="6"  placeholder="?"/></td>
+            </tr>
+            <tr>
+              <td>Oxygen-16</td><td>8</td><td>16</td>
+              <td><input type="number" data-ans="8"  placeholder="?"/></td>
+              <td><input type="number" data-ans="8"  placeholder="?"/></td>
+              <td><input type="number" data-ans="8"  placeholder="?"/></td>
+            </tr>
+            <tr>
+              <td>Sodium-23</td><td>11</td><td>23</td>
+              <td><input type="number" data-ans="11" placeholder="?"/></td>
+              <td><input type="number" data-ans="12" placeholder="?"/></td>
+              <td><input type="number" data-ans="11" placeholder="?"/></td>
+            </tr>
+            <tr>
+              <td>Iron-56</td><td>26</td><td>56</td>
+              <td><input type="number" data-ans="26" placeholder="?"/></td>
+              <td><input type="number" data-ans="30" placeholder="?"/></td>
+              <td><input type="number" data-ans="26" placeholder="?"/></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="btn" onclick="checkTable()">Check my answers</button>
+      <div id="table-feedback" style="margin-top:10px;font-size:12px;display:none"></div>
+      <button class="next-btn" id="next-6" onclick="completeStep(6)">Continue → What comes next? ▶</button>
+    </div>
+  </div>
+
+  <!-- STEP 7: BRIDGE -->
+  <div class="step locked" id="step-7">
+    <div class="step-header" onclick="toggleStep(7)">
+      <div class="step-num">7</div>
+      <div class="step-title-wrap">
+        <div class="step-label">Step 7 · Bridge</div>
+        <div class="step-title">What comes next?</div>
+      </div>
+      <div class="step-time">~3 min</div>
+    </div>
+    <div class="step-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:4px">Everything you learned today connects to these upcoming topics.</p>
+      <div class="bridge-row">
+        <div class="bridge-tile">
+          <div class="bridge-icon">⚡</div>
+          <div>
+            <h3>Electron Configuration</h3>
+            <p>Z tells you how many electrons an atom has. Next we fill those electrons into Bohr's energy levels — shell by shell — following three rules.</p>
+          </div>
+        </div>
+        <div class="bridge-tile">
+          <div class="bridge-icon">📊</div>
+          <div>
+            <h3>The Periodic Table</h3>
+            <p>Elements are arranged by increasing Z. The row (period) = number of shells. The column (group) = number of valence electrons.</p>
+          </div>
+        </div>
+        <div class="bridge-tile">
+          <div class="bridge-icon">⚗️</div>
+          <div>
+            <h3>Conservation of Mass</h3>
+            <p>Atoms are never created or destroyed in a reaction — only rearranged. That is exactly why mass is always conserved.</p>
+          </div>
+        </div>
+      </div>
+      <button class="next-btn visible" onclick="completeStep(7)">Done → Exit Ticket ▶</button>
+    </div>
+  </div>
+
+  <!-- STEP 8: EXIT TICKET -->
+  <div class="step locked" id="step-8">
+    <div class="step-header" onclick="toggleStep(8)">
+      <div class="step-num">8</div>
+      <div class="step-title-wrap">
+        <div class="step-label">Step 8 · Reflect</div>
+        <div class="step-title">Exit Ticket — 3-2-1</div>
+      </div>
+      <div class="step-time">~5 min</div>
+    </div>
+    <div class="step-body">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:4px">Write your answers in your notebook before finishing.</p>
+      <div class="ref-grid">
+        <div class="ref-box">
+          <div class="ref-n">3</div>
+          <p>things you learned today about atoms, particles, or atomic models</p>
+        </div>
+        <div class="ref-box">
+          <div class="ref-n">2</div>
+          <p>connections between today's topic and chemical reactions or conservation of mass</p>
+        </div>
+        <div class="ref-box">
+          <div class="ref-n">1</div>
+          <p>question you still have — write it down and bring it to the next class</p>
+        </div>
+      </div>
+      <button class="next-btn visible" onclick="completeStep(8)">I am done!</button>
+    </div>
+  </div>
+
+  <!-- CONGRATS -->
+  <div class="congrats" id="congrats">
+    <div class="congrats-icon">🎉</div>
+    <h2>Activity Complete!</h2>
+    <p>You covered atomic models, subatomic particles, atomic number, and mass number.<br/><br/>
+    You are now ready for <strong style="color:var(--teal)">Electron Configuration</strong>.</p>
+  </div>
+
+</main>
+
+<footer>
+  Chemical Reactions: Conservation of Mass · 4th Semester Preparatoria · Atomic Models &amp; Atomic Structure
+</footer>
+
+<script>
+  const totalSteps = 8;
+  let quizAnswered = { q1:false, q2:false, q3:false };
+
+  function updateProgress() {
+    const done = document.querySelectorAll('.step.done').length;
+    document.getElementById('progress-bar').style.width = (done / totalSteps * 100) + '%';
+  }
+
+  function toggleStep(n) {
+    const s = document.getElementById('step-' + n);
+    if (s.classList.contains('locked')) return;
+    s.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function completeStep(n) {
+    const current = document.getElementById('step-' + n);
+    current.classList.remove('active');
+    current.classList.add('done');
+    if (n < totalSteps) {
+      const next = document.getElementById('step-' + (n+1));
+      next.classList.remove('locked');
+      next.classList.add('active');
+      setTimeout(() => next.scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+    } else {
+      const congrats = document.getElementById('congrats');
+      congrats.classList.add('show');
+      setTimeout(() => congrats.scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+    }
+    updateProgress();
+  }
+
+  function answer(qid, btn, correct, feedback) {
+    if (quizAnswered[qid]) return;
+    quizAnswered[qid] = true;
+    const block = document.getElementById(qid);
+    block.querySelectorAll('.q-opt').forEach(o => {
+      o.classList.add(o === btn ? (correct ? 'correct' : 'wrong') : 'disabled');
+    });
+    const fb = document.getElementById(qid + '-fb');
+    fb.textContent = (correct ? '✓ ' : '✗ ') + feedback;
+    fb.className = 'q-feedback show ' + (correct ? 'ok' : 'err');
+    if (Object.values(quizAnswered).every(Boolean)) {
+      document.getElementById('next-3').classList.add('visible');
+    }
+  }
+
+  function checkTable() {
+    const inputs = document.querySelectorAll('#particle-table input');
+    let correct = 0;
+    inputs.forEach(inp => {
+      const val = parseInt(inp.value);
+      const ans = parseInt(inp.dataset.ans);
+      inp.classList.remove('correct','wrong');
+      if (val === ans) { inp.classList.add('correct'); correct++; }
+      else             { inp.classList.add('wrong'); }
+    });
+    const fb = document.getElementById('table-feedback');
+    fb.style.display = 'block';
+    if (correct === inputs.length) {
+      fb.style.color = 'var(--green)';
+      fb.textContent = 'Perfect! All ' + inputs.length + ' answers are correct.';
+      document.getElementById('next-6').classList.add('visible');
+    } else {
+      fb.style.color = 'var(--pink)';
+      fb.textContent = correct + ' / ' + inputs.length + ' correct. Wrong answers are highlighted — try again!';
+    }
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
