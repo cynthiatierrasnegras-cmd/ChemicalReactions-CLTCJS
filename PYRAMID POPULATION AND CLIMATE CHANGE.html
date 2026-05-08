@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Population & Climate Change — Sessions 3 & 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--bg2:#111118;--bg3:#16161f;--surf:#1c1c28;--surf2:#22222f;--bdr:rgba(255,255,255,0.06);--bdr2:rgba(255,255,255,0.12);--txt:#e8e8f0;--txt2:#9090a8;--txt3:#5a5a70;--cyan:#00e5ff;--cyan2:#00b8cc;--cdim:rgba(0,229,255,0.08);--cglow:rgba(0,229,255,0.15);--amb:#ffb300;--adim:rgba(255,179,0,0.08);--cor:#ff5252;--cdim2:rgba(255,82,82,0.08);--grn:#69f0ae;--gdim:rgba(105,240,174,0.08);--pur:#b388ff;--pdim:rgba(179,136,255,0.08)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;height:52px;padding:0 1.5rem;gap:0}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.12em;color:var(--cyan);margin-right:1.5rem;white-space:nowrap}
+.nav-slides{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1}
+.nav-slides::-webkit-scrollbar{display:none}
+.nav-btn{background:none;border:none;color:var(--txt3);font-family:'DM Sans',sans-serif;font-size:.7rem;padding:3px 9px;border-radius:4px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.nav-btn:hover{color:var(--txt);background:var(--surf)}
+.nav-btn.active{color:var(--cyan);background:var(--cdim)}
+.ns-tag{font-size:.6rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:2px 9px;border-radius:20px;white-space:nowrap;margin-right:3px}
+.ns3{background:var(--pdim);color:var(--pur);border:1px solid rgba(179,136,255,0.2)}
+.ns4{background:var(--adim);color:var(--amb);border:1px solid rgba(255,179,0,0.2)}
+.slides{padding-top:52px}
+.slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:5rem 8vw;position:relative;overflow:hidden;border-bottom:1px solid var(--bdr);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.slide.visible{opacity:1;transform:translateY(0)}
+.slide-num{position:absolute;top:5rem;right:8vw;font-family:'Bebas Neue',sans-serif;font-size:5rem;line-height:1;color:rgba(255,255,255,0.025);user-select:none;pointer-events:none}
+.sec-div{background:var(--bg2);padding:1.5rem 8vw;display:flex;align-items:center;gap:1.5rem;border-bottom:1px solid var(--bdr)}
+.sd-tag{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.1em}
+.sd-line{flex:1;height:1px}
+.sd-meta{font-size:.68rem;color:var(--txt3);letter-spacing:.06em}
+.session-tag{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,3.5vw,3rem);letter-spacing:.04em;line-height:1.05;margin-bottom:.4rem}
+.h1 em{font-style:normal}
+.lead{font-size:.88rem;color:var(--txt2);line-height:1.65;margin-bottom:1.25rem;max-width:680px}
+/* 2-col grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;max-width:1100px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.g22{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+/* cards */
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:1rem 1.1rem}
+.card:hover{border-color:var(--bdr2)}
+.card-tag{font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.card h3{font-size:.85rem;font-weight:500;margin-bottom:.35rem}
+.card p{font-size:.75rem;color:var(--txt2);line-height:1.55}
+/* pill */
+.pill{font-size:.65rem;font-weight:600;padding:2px 9px;border-radius:20px;display:inline-block}
+/* stat */
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.04em;line-height:1;margin-bottom:3px}
+.stat-lbl{font-size:.7rem;color:var(--txt2);line-height:1.45}
+/* q box */
+.qbox{background:var(--cdim);border:1px solid rgba(0,229,255,.2);border-left:3px solid var(--cyan);border-radius:8px;padding:.85rem 1.1rem;font-size:.82rem;line-height:1.6;font-style:italic;margin-top:1rem}
+.qbox .ql{font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:4px;font-style:normal}
+/* visual image boxes — SVG illustrated scenes */
+.img-box{border-radius:12px;overflow:hidden;border:1px solid var(--bdr2)}
+.img-box svg{display:block;width:100%}
+.img-caption{padding:.6rem .9rem;font-size:.68rem;color:var(--txt3);line-height:1.45;background:var(--surf);border-top:1px solid var(--bdr)}
+/* finding rows */
+.find-row{display:flex;gap:.85rem;align-items:flex-start;padding:.75rem 0;border-bottom:1px solid var(--bdr)}
+.find-row:last-child{border-bottom:none}
+.find-yr{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.06em;flex-shrink:0;width:48px;color:var(--cyan)}
+.find-txt{font-size:.8rem;color:var(--txt2);line-height:1.55}
+.find-txt strong{color:var(--txt);font-weight:500;display:block;margin-bottom:2px}
+/* dt stages */
+.dt-card{border-radius:10px;padding:1.1rem 1rem;border:1px solid var(--bdr)}
+.dt-card.active{border-color:rgba(0,229,255,.3)}
+.dt-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.04em;line-height:1;margin-bottom:.4rem;opacity:.18}
+.dt-card h3{font-size:.8rem;font-weight:500;margin-bottom:.4rem}
+.dt-card p{font-size:.72rem;color:var(--txt2);line-height:1.5}
+.dt-pills{display:flex;gap:5px;margin-top:.5rem;flex-wrap:wrap}
+.rate-h{background:rgba(255,82,82,.15);color:#ff8080}
+.rate-f{background:rgba(255,179,0,.15);color:var(--amb)}
+.rate-l{background:rgba(105,240,174,.15);color:var(--grn)}
+/* od cards */
+.od-card{border-radius:10px;border:1px solid var(--bdr);padding:.9rem 1rem}
+.od-hd{display:flex;align-items:center;gap:8px;margin-bottom:.55rem}
+.od-ic{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;flex-shrink:0}
+.od-ttl{font-size:.78rem;font-weight:500}
+.od-list{list-style:none}
+.od-list li{font-size:.72rem;color:var(--txt2);line-height:1.5;padding:2px 0;display:flex;gap:5px}
+.od-list li::before{content:'—';color:var(--txt3);flex-shrink:0}
+/* fact items */
+.fact{display:flex;gap:.8rem;align-items:flex-start;background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:.85rem .95rem}
+.fact-ic{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;letter-spacing:.04em;flex-shrink:0;text-transform:uppercase}
+.fact-bd h4{font-size:.78rem;font-weight:500;margin-bottom:2px}
+.fact-bd p{font-size:.7rem;color:var(--txt2);line-height:1.5}
+/* vuln cards */
+.vuln-card{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;padding:1.1rem;transition:transform .2s}
+.vuln-card:hover{transform:translateY(-2px);border-color:var(--bdr2)}
+.vuln-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.vuln-zone{font-size:.6rem;color:var(--txt3)}
+.vuln-stat{margin-top:.55rem;padding-top:.55rem;border-top:1px solid var(--bdr);font-size:.68rem;color:var(--txt3);line-height:1.45}
+.vuln-stat strong{color:var(--txt2);font-weight:400}
+/* fl cards */
+.fl-card{border-radius:12px;overflow:hidden;border:1px solid var(--bdr)}
+.fl-card:hover{border-color:var(--bdr2)}
+.fl-img-wrap{position:relative}
+.fl-img-wrap svg{display:block;width:100%}
+.fl-badge-abs{position:absolute;bottom:.6rem;left:.7rem;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
+.fl-body{padding:.8rem;background:var(--surf)}
+.fl-body h3{font-size:.8rem;font-weight:500;margin-bottom:.3rem}
+.fl-body p{font-size:.7rem;color:var(--txt2);line-height:1.5;margin-bottom:.4rem}
+.fl-eff{margin-top:.4rem;padding-top:.4rem;border-top:1px solid var(--bdr);font-size:.65rem;color:var(--txt3);line-height:1.45}
+/* scenario */
+.sc-card{border-radius:12px;border:1px solid var(--bdr);overflow:hidden;transition:transform .2s}
+.sc-card:hover{transform:translateY(-3px);border-color:var(--bdr2)}
+.sc-hd{padding:.75rem .9rem;display:flex;align-items:center;gap:8px}
+.sc-lt{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.06em;flex-shrink:0}
+.sc-ttl{font-size:.76rem;font-weight:500}
+.sc-body{padding:.8rem .9rem;background:var(--surf)}
+.sc-body p{font-size:.72rem;color:var(--txt2);line-height:1.55;margin-bottom:.55rem}
+/* takeaway */
+.tk{display:flex;gap:.85rem;align-items:flex-start;background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:.8rem .95rem;transition:border-color .2s}
+.tk:hover{border-color:var(--bdr2)}
+.tk-num{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em;line-height:1;flex-shrink:0;margin-top:1px}
+.tk-bd h4{font-size:.8rem;font-weight:500;margin-bottom:2px}
+.tk-bd p{font-size:.72rem;color:var(--txt2);line-height:1.5}
+/* hw box */
+.hwbox{background:var(--surf);border:1px solid rgba(255,179,0,.2);border-left:3px solid var(--amb);border-radius:8px;padding:.9rem 1.1rem;margin-top:.85rem}
+.hwbox .hwl{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:5px}
+.hwbox p{font-size:.78rem;color:var(--txt2);line-height:1.6;font-style:italic}
+/* data rows */
+.dr{display:flex;justify-content:space-between;align-items:center;padding:.55rem .8rem;background:var(--surf);border:1px solid var(--bdr);border-radius:8px}
+.dr-lbl{font-size:.7rem;color:var(--txt2)}
+.dr-val{font-size:.75rem;font-weight:500}
+/* progress */
+.progress{position:fixed;bottom:0;left:0;right:0;height:2px;background:var(--bdr);z-index:200}
+.progress-fill{height:100%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);transition:width .3s ease;width:10%}
+/* responsive */
+@media(max-width:768px){.g2,.g3,.g4,.g22{grid-template-columns:1fr}.slide{padding:5rem 5vw}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">Space &amp; Society</div>
+  <div class="nav-slides">
+    <span class="ns-tag ns3">Session 3</span>
+    <button class="nav-btn active" onclick="goTo('s1')">1. Intro</button>
+    <button class="nav-btn" onclick="goTo('s2')">2. Mexico recap</button>
+    <button class="nav-btn" onclick="goTo('s3')">3. Demographic transition</button>
+    <button class="nav-btn" onclick="goTo('s4')">4. Climate bridge</button>
+    <button class="nav-btn" onclick="goTo('s5')">5. Tuvalu &amp; Kiribati</button>
+    <span class="ns-tag ns4">Session 4</span>
+    <button class="nav-btn" onclick="goTo('s6')">6. Who suffers most?</button>
+    <button class="nav-btn" onclick="goTo('s7')">7. Vulnerable groups</button>
+    <button class="nav-btn" onclick="goTo('s8')">8. Mexico frontlines</button>
+    <button class="nav-btn" onclick="goTo('s9')">9. Group activity</button>
+    <button class="nav-btn" onclick="goTo('s10')">10. Synthesis</button>
+  </div>
+</nav>
+
+<div class="slides">
+
+<!-- SESSION 3 DIVIDER -->
+<div class="sec-div">
+  <div class="sd-tag" style="color:var(--pur)">Session 3</div>
+  <div class="sd-line" style="background:linear-gradient(to right,rgba(179,136,255,.3),transparent)"></div>
+  <div class="sd-meta">Tuesday · Demographic transition + first bridge to climate change</div>
+</div>
+
+<!-- SLIDE 1: TITLE -->
+<section class="slide" id="s1">
+  <div class="slide-num">01</div>
+  <div class="g2" style="align-items:center">
+    <div>
+      <div style="font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.2rem;display:flex;align-items:center;gap:8px"><span style="width:24px;height:1px;background:var(--cyan);display:inline-block"></span>Population structure &amp; climate change</div>
+      <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,4.5rem);letter-spacing:.03em;line-height:1;margin-bottom:1.25rem">From pyramids<br>to <span style="color:var(--cyan)">transition</span></h1>
+      <p style="font-size:.95rem;color:var(--txt2);line-height:1.7;margin-bottom:1.75rem;max-width:460px">How populations change over time — and why climate change is now rewriting that story for millions of people around the world.</p>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <span style="font-size:.7rem;font-weight:500;padding:4px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--txt2)">Session 3 of 5</span>
+        <span style="font-size:.7rem;font-weight:500;padding:4px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--txt2)">Space &amp; Society</span>
+        <span style="font-size:.7rem;font-weight:500;padding:4px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--txt2)">High School</span>
+      </div>
+    </div>
+    <div>
+      <!-- SVG: City population flow illustration -->
+      <div class="img-box">
+        <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="520" height="300" fill="#0e0e18"/>
+          <!-- city skyline -->
+          <rect x="20" y="180" width="30" height="100" fill="#1a1a2e"/>
+          <rect x="55" y="150" width="40" height="130" fill="#1c1c30"/>
+          <rect x="100" y="130" width="50" height="150" fill="#1e1e32"/>
+          <rect x="155" y="100" width="60" height="180" fill="#20203a"/>
+          <rect x="220" y="120" width="45" height="160" fill="#1c1c30"/>
+          <rect x="270" y="90" width="55" height="190" fill="#22223c"/>
+          <rect x="330" y="140" width="40" height="140" fill="#1a1a2e"/>
+          <rect x="375" y="110" width="50" height="170" fill="#1e1e32"/>
+          <rect x="430" y="160" width="35" height="120" fill="#1a1a2e"/>
+          <rect x="470" y="130" width="30" height="150" fill="#1c1c30"/>
+          <!-- windows glow -->
+          <rect x="62" y="158" width="8" height="5" fill="#00e5ff" opacity=".25"/>
+          <rect x="75" y="158" width="8" height="5" fill="#00e5ff" opacity=".18"/>
+          <rect x="62" y="172" width="8" height="5" fill="#ffb300" opacity=".3"/>
+          <rect x="108" y="138" width="9" height="6" fill="#00e5ff" opacity=".22"/>
+          <rect x="122" y="138" width="9" height="6" fill="#00e5ff" opacity=".15"/>
+          <rect x="108" y="154" width="9" height="6" fill="#ffb300" opacity=".28"/>
+          <rect x="122" y="154" width="9" height="6" fill="#00e5ff" opacity=".2"/>
+          <rect x="165" y="110" width="10" height="6" fill="#00e5ff" opacity=".2"/>
+          <rect x="180" y="110" width="10" height="6" fill="#ffb300" opacity=".25"/>
+          <rect x="195" y="110" width="10" height="6" fill="#00e5ff" opacity=".18"/>
+          <rect x="165" y="126" width="10" height="6" fill="#00e5ff" opacity=".15"/>
+          <rect x="180" y="126" width="10" height="6" fill="#00e5ff" opacity=".22"/>
+          <rect x="280" y="100" width="10" height="6" fill="#00e5ff" opacity=".2"/>
+          <rect x="295" y="100" width="10" height="6" fill="#ffb300" opacity=".3"/>
+          <rect x="310" y="100" width="10" height="6" fill="#00e5ff" opacity=".18"/>
+          <rect x="280" y="116" width="10" height="6" fill="#00e5ff" opacity=".15"/>
+          <rect x="295" y="116" width="10" height="6" fill="#00e5ff" opacity=".25"/>
+          <!-- ground -->
+          <rect x="0" y="278" width="520" height="22" fill="#111118"/>
+          <!-- people dots moving -->
+          <circle cx="80" cy="270" r="3" fill="#00e5ff" opacity=".6"/>
+          <circle cx="130" cy="268" r="3" fill="#00e5ff" opacity=".5"/>
+          <circle cx="200" cy="271" r="3" fill="#ffb300" opacity=".6"/>
+          <circle cx="260" cy="269" r="3" fill="#00e5ff" opacity=".4"/>
+          <circle cx="320" cy="272" r="3" fill="#69f0ae" opacity=".55"/>
+          <circle cx="390" cy="268" r="3" fill="#00e5ff" opacity=".5"/>
+          <circle cx="440" cy="270" r="3" fill="#ffb300" opacity=".45"/>
+          <!-- glow overlay -->
+          <ellipse cx="260" cy="200" rx="200" ry="80" fill="none" stroke="rgba(0,229,255,0.04)" stroke-width="40"/>
+          <!-- label -->
+          <text x="260" y="50" text-anchor="middle" font-family="sans-serif" font-size="11" fill="rgba(0,229,255,0.5)" letter-spacing="3">POPULATION IN MOTION</text>
+          <text x="260" y="68" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(144,144,168,0.5)">urbanization · migration · demographic transition</text>
+        </svg>
+        <div class="img-caption">"A population pyramid is a snapshot. The demographic transition is the whole movie."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: MEXICO DEBRIEF -->
+<section class="slide" id="s2">
+  <div class="slide-num">02</div>
+  <div class="session-tag"><span class="dot" style="background:var(--cyan)"></span><span style="color:var(--cyan)">Session 3</span><span style="color:var(--txt3)">·</span><span style="color:var(--txt2)">Mexico debrief</span></div>
+  <div class="g2">
+    <div>
+      <h2 class="h1">What Mexico's pyramids <span style="color:var(--cyan)">told us</span></h2>
+      <p class="lead">Key findings from our analysis of 2010 vs 2020. These are the foundations for everything in session 3.</p>
+      <div class="find-row"><div class="find-yr">2010</div><div class="find-txt"><strong>Transitional pyramid</strong>Wide base still visible. Largest group: 15–29 years. Population ~112M. Fertility rate ~2.2 children per woman.</div></div>
+      <div class="find-row"><div class="find-yr">2020</div><div class="find-txt"><strong>Moving toward stationary</strong>Base narrowed. Bulge shifted to 25–39. Population ~126M. Fertility ~2.0. Life expectancy 75–77 years.</div></div>
+      <div class="find-row"><div class="find-yr" style="color:var(--amb)">WHY?</div><div class="find-txt"><strong>3 main causes</strong>Urbanization (children are expensive in cities) · Women's education expanded dramatically · Government family planning since 1974: <em>"La familia pequeña vive mejor"</em></div></div>
+      <div class="qbox"><div class="ql">Discussion question</div>Why is Mexico's base getting narrower? What changed between the 1970s and today?</div>
+    </div>
+    <div>
+      <div class="g22" style="margin-bottom:10px">
+        <div class="card"><div class="stat-val" style="color:var(--cyan)">112M</div><div class="stat-lbl">Mexico population 2010</div></div>
+        <div class="card"><div class="stat-val" style="color:var(--grn)">126M</div><div class="stat-lbl">Mexico population 2020</div></div>
+        <div class="card"><div class="stat-val" style="color:var(--amb)">2.0</div><div class="stat-lbl">Children per woman, 2020</div></div>
+        <div class="card"><div class="stat-val" style="color:var(--cor)">6–7</div><div class="stat-lbl">Children per woman, 1970s</div></div>
+      </div>
+      <div class="card"><div class="stat-val" style="color:var(--pur)">26 → 29</div><div class="stat-lbl">Median age rose in just 10 years — Mexico is aging steadily</div></div>
+      <!-- Mini pyramid comparison SVG -->
+      <div class="img-box" style="margin-top:12px">
+        <svg viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="480" height="160" fill="#16161f"/>
+          <!-- 2010 pyramid mini -->
+          <text x="120" y="18" text-anchor="middle" font-family="sans-serif" font-size="10" fill="rgba(0,229,255,0.7)" letter-spacing="1">2010</text>
+          <text x="22" y="138" font-family="sans-serif" font-size="7" fill="#5a5a70">0–9</text>
+          <text x="22" y="120" font-family="sans-serif" font-size="7" fill="#5a5a70">10–19</text>
+          <text x="22" y="102" font-family="sans-serif" font-size="7" fill="#5a5a70">20–29</text>
+          <text x="22" y="84" font-family="sans-serif" font-size="7" fill="#5a5a70">30–39</text>
+          <text x="22" y="66" font-family="sans-serif" font-size="7" fill="#5a5a70">40–49</text>
+          <text x="22" y="48" font-family="sans-serif" font-size="7" fill="#5a5a70">50+</text>
+          <!-- men left -->
+          <rect x="54" y="128" width="66" height="12" rx="1" fill="#378ADD" opacity=".7"/>
+          <rect x="66" y="110" width="54" height="12" rx="1" fill="#378ADD" opacity=".7"/>
+          <rect x="76" y="92" width="44" height="12" rx="1" fill="#378ADD" opacity=".8"/>
+          <rect x="88" y="74" width="32" height="12" rx="1" fill="#378ADD" opacity=".7"/>
+          <rect x="98" y="56" width="22" height="12" rx="1" fill="#378ADD" opacity=".6"/>
+          <rect x="108" y="38" width="12" height="12" rx="1" fill="#378ADD" opacity=".5"/>
+          <!-- women right -->
+          <rect x="120" y="128" width="64" height="12" rx="1" fill="#D4537E" opacity=".7"/>
+          <rect x="120" y="110" width="52" height="12" rx="1" fill="#D4537E" opacity=".7"/>
+          <rect x="120" y="92" width="44" height="12" rx="1" fill="#D4537E" opacity=".8"/>
+          <rect x="120" y="74" width="34" height="12" rx="1" fill="#D4537E" opacity=".7"/>
+          <rect x="120" y="56" width="24" height="12" rx="1" fill="#D4537E" opacity=".6"/>
+          <rect x="120" y="38" width="14" height="12" rx="1" fill="#D4537E" opacity=".5"/>
+          <!-- center line 2010 -->
+          <line x1="120" y1="28" x2="120" y2="148" stroke="rgba(255,255,255,0.15)" stroke-width=".5"/>
+          <!-- 2020 pyramid mini -->
+          <text x="360" y="18" text-anchor="middle" font-family="sans-serif" font-size="10" fill="rgba(105,240,174,0.7)" letter-spacing="1">2020</text>
+          <!-- men left 2020 narrower base -->
+          <rect x="308" y="128" width="52" height="12" rx="1" fill="#378ADD" opacity=".7"/>
+          <rect x="302" y="110" width="58" height="12" rx="1" fill="#378ADD" opacity=".8"/>
+          <rect x="294" y="92" width="66" height="12" rx="1" fill="#378ADD" opacity=".85"/>
+          <rect x="300" y="74" width="60" height="12" rx="1" fill="#378ADD" opacity=".75"/>
+          <rect x="308" y="56" width="52" height="12" rx="1" fill="#378ADD" opacity=".65"/>
+          <rect x="322" y="38" width="38" height="12" rx="1" fill="#378ADD" opacity=".55"/>
+          <!-- women right 2020 -->
+          <rect x="360" y="128" width="50" height="12" rx="1" fill="#D4537E" opacity=".7"/>
+          <rect x="360" y="110" width="58" height="12" rx="1" fill="#D4537E" opacity=".8"/>
+          <rect x="360" y="92" width="66" height="12" rx="1" fill="#D4537E" opacity=".85"/>
+          <rect x="360" y="74" width="62" height="12" rx="1" fill="#D4537E" opacity=".75"/>
+          <rect x="360" y="56" width="54" height="12" rx="1" fill="#D4537E" opacity=".65"/>
+          <rect x="360" y="38" width="40" height="12" rx="1" fill="#D4537E" opacity=".55"/>
+          <line x1="360" y1="28" x2="360" y2="148" stroke="rgba(255,255,255,0.15)" stroke-width=".5"/>
+          <!-- annotation arrow -->
+          <line x1="240" y1="80" x2="240" y2="80" stroke="none"/>
+          <text x="240" y="75" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(255,179,0,0.7)">Base narrowing ↓</text>
+          <text x="240" y="90" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(105,240,174,0.6)">Middle growing ↑</text>
+          <text x="240" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(255,82,82,0.6)">Top widening ↑</text>
+        </svg>
+        <div class="img-caption">Mexico 2010 vs 2020 — approximate pyramid comparison. Base narrowed, working-age bulge shifted upward, top grew slightly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3: DEMOGRAPHIC TRANSITION -->
+<section class="slide" id="s3">
+  <div class="slide-num">03</div>
+  <div class="session-tag"><span class="dot" style="background:var(--pur)"></span><span style="color:var(--pur)">Session 3</span><span style="color:var(--txt3)">·</span><span style="color:var(--txt2)">The demographic transition model</span></div>
+  <h2 class="h1">The 4 stages of <span style="color:var(--pur)">demographic transition</span></h2>
+  <p class="lead">Every country follows a path from high birth + death rates to low birth + death rates, driven by development, urbanization, and education.</p>
+  <div class="g4">
+    <div class="dt-card"><div class="dt-num" style="color:var(--cor)">01</div><h3>Pre-industrial</h3><p>No modern medicine. Frequent famine and disease. Many births but also many deaths. Population barely grows.</p><div class="dt-pills"><span class="pill rate-h">Birth: HIGH</span><span class="pill rate-h">Death: HIGH</span></div><p style="font-size:.66rem;color:var(--txt3);margin-top:.5rem">Example: Most of human history before 1800</p></div>
+    <div class="dt-card"><div class="dt-num" style="color:var(--amb)">02</div><h3>Early development</h3><p>Medicine improves. Death rate falls fast. Birth rate still high. Population EXPLODES — not more births, but fewer deaths.</p><div class="dt-pills"><span class="pill rate-h">Birth: HIGH</span><span class="pill rate-f">Death: FALLING</span></div><p style="font-size:.66rem;color:var(--txt3);margin-top:.5rem">Example: Mexico 1950s–1970s</p></div>
+    <div class="dt-card"><div class="dt-num" style="color:var(--grn)">03</div><h3>Late development</h3><p>Urbanization and education cause birth rate to fall. Growth slows. Pyramid base narrows. Demographic bonus window opens.</p><div class="dt-pills"><span class="pill rate-f">Birth: FALLING</span><span class="pill rate-l">Death: LOW</span></div><p style="font-size:.66rem;color:var(--txt3);margin-top:.5rem">Example: Brazil, Indonesia, Mexico today</p></div>
+    <div class="dt-card active"><div class="dt-num" style="color:var(--cyan)">04</div><h3>Post-industrial</h3><p>Both rates very low. High cost of living, career priorities, late marriages. Pyramid becomes rectangular or inverted.</p><div class="dt-pills"><span class="pill rate-l">Birth: LOW</span><span class="pill rate-l">Death: LOW</span></div><p style="font-size:.66rem;color:var(--txt3);margin-top:.5rem">Example: Japan, Germany, South Korea</p></div>
+  </div>
+  <div style="display:inline-flex;align-items:center;gap:8px;background:var(--cdim);border:1px solid rgba(0,229,255,.2);border-radius:6px;padding:6px 14px;font-size:.73rem;color:var(--cyan);margin-top:1rem">→ Mexico is currently transitioning between Stage 3 and Stage 4</div>
+  <!-- Transition curve SVG -->
+  <div class="img-box" style="margin-top:1.25rem;max-width:700px">
+    <svg viewBox="0 0 680 130" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="130" fill="#16161f"/>
+      <text x="340" y="15" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(144,144,168,0.5)" letter-spacing="2">BIRTH RATE vs DEATH RATE OVER TIME</text>
+      <!-- birth rate curve — high, stays high, then falls -->
+      <path d="M40,30 C80,30 120,32 160,34 C200,36 220,38 260,50 C300,62 340,80 400,90 C440,96 480,98 540,100 C580,102 620,102 640,102" fill="none" stroke="#ff5252" stroke-width="2" opacity=".7"/>
+      <!-- death rate curve — high, falls early, stays low -->
+      <path d="M40,30 C60,30 80,32 100,40 C130,52 160,70 200,82 C240,90 280,94 340,96 C400,98 460,100 540,101 C580,101 620,101 640,101" fill="none" stroke="#69f0ae" stroke-width="2" opacity=".7"/>
+      <!-- fill between = population growth -->
+      <path d="M40,30 C80,30 120,32 160,34 C200,36 220,38 260,50 C300,62 340,80 400,90 C440,96 480,98 540,100 C580,102 620,102 640,102 C620,101 580,101 540,101 C460,100 400,98 340,96 C280,94 240,90 200,82 C160,70 130,52 100,40 C80,32 60,30 40,30 Z" fill="rgba(0,229,255,0.05)"/>
+      <!-- stage labels -->
+      <text x="80" y="115" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#5a5a70">Stage 1</text>
+      <text x="200" y="115" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#5a5a70">Stage 2</text>
+      <text x="360" y="115" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#5a5a70">Stage 3</text>
+      <text x="540" y="115" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#5a5a70">Stage 4</text>
+      <!-- stage dividers -->
+      <line x1="140" y1="22" x2="140" y2="108" stroke="rgba(255,255,255,0.06)" stroke-width=".5" stroke-dasharray="3 3"/>
+      <line x1="280" y1="22" x2="280" y2="108" stroke="rgba(255,255,255,0.06)" stroke-width=".5" stroke-dasharray="3 3"/>
+      <line x1="460" y1="22" x2="460" y2="108" stroke="rgba(255,255,255,0.06)" stroke-width=".5" stroke-dasharray="3 3"/>
+      <!-- Mexico marker -->
+      <line x1="500" y1="22" x2="500" y2="108" stroke="rgba(0,229,255,0.4)" stroke-width="1"/>
+      <text x="500" y="18" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(0,229,255,0.7)">MEXICO TODAY</text>
+      <!-- legend -->
+      <line x1="20" y1="20" x2="36" y2="20" stroke="#ff5252" stroke-width="2" opacity=".7"/>
+      <text x="40" y="23" font-family="sans-serif" font-size="8" fill="rgba(144,144,168,0.6)">Birth rate</text>
+      <line x1="90" y1="20" x2="106" y2="20" stroke="#69f0ae" stroke-width="2" opacity=".7"/>
+      <text x="110" y="23" font-family="sans-serif" font-size="8" fill="rgba(144,144,168,0.6)">Death rate</text>
+    </svg>
+    <div class="img-caption">The demographic transition curve — as development increases, death rate falls first, then birth rate follows. The gap between the two curves = population growth.</div>
+  </div>
+</section>
+
+<!-- SLIDE 4: BRIDGE QUESTION -->
+<section class="slide" id="s4">
+  <div class="slide-num">04</div>
+  <div class="session-tag"><span class="dot" style="background:var(--cyan)"></span><span style="color:var(--cyan)">Session 3</span><span style="color:var(--txt3)">·</span><span style="color:var(--txt2)">The bridge to climate change</span></div>
+  <div class="g2">
+    <div>
+      <h2 class="h1">What happens when <span style="color:var(--cyan)">climate change</span> enters the picture?</h2>
+      <p style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,2.2vw,1.9rem);letter-spacing:.04em;line-height:1.2;color:var(--txt);margin:1rem 0 1.5rem">If millions are forced to leave their homes — what happens to the pyramid of the place they <span style="color:var(--cor)">left?</span> And the place they <span style="color:var(--grn)">arrived?</span></p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="od-card"><div class="od-hd"><div class="od-ic" style="background:var(--cdim2);color:var(--cor)">OUT</div><div class="od-ttl">Origin — place people leave</div></div><ul class="od-list"><li>Young adults leave first — mobile and seeking opportunity</li><li>Working-age bars (20–45) shrink dramatically</li><li>Elderly and children stay — those least able to cope</li><li>Economy collapses — fewer workers, less tax revenue</li><li>Schools close, hospitals understaffed, infrastructure fails</li></ul></div>
+        <div class="od-card"><div class="od-hd"><div class="od-ic" style="background:var(--gdim);color:var(--grn)">IN</div><div class="od-ttl">Destination — place people arrive</div></div><ul class="od-list"><li>Sudden increase in young working-age adults</li><li>Housing demand spikes — rents rise, informal settlements grow</li><li>Pressure on schools, hospitals, water, and transport</li><li>Can be an opportunity IF managed well with planning</li></ul></div>
+      </div>
+      <div style="margin-top:.85rem;padding:.75rem .95rem;background:var(--surf);border:1px solid var(--bdr);border-radius:8px;font-size:.73rem;color:var(--txt2);line-height:1.55"><span style="color:var(--amb);font-weight:500">This is not hypothetical.</span> It is already happening in Mexico, Bangladesh, the Sahel, and the Pacific islands right now.</div>
+    </div>
+    <div>
+      <!-- SVG: before/after pyramid illustration -->
+      <div class="img-box">
+        <svg viewBox="0 0 460 280" xmlns="http://www.w3.org/2000/svg">
+          <rect width="460" height="280" fill="#16161f"/>
+          <text x="115" y="20" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(255,82,82,0.7)" letter-spacing="1">BEFORE — Village</text>
+          <text x="345" y="20" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(105,240,174,0.7)" letter-spacing="1">AFTER — Village</text>
+          <!-- before pyramid (normal shape) -->
+          <line x1="115" y1="30" x2="115" y2="248" stroke="rgba(255,255,255,.1)" stroke-width=".5"/>
+          <rect x="49" y="232" width="66" height="14" rx="1" fill="#378ADD" opacity=".65"/>
+          <rect x="59" y="216" width="56" height="14" rx="1" fill="#378ADD" opacity=".65"/>
+          <rect x="67" y="200" width="48" height="14" rx="1" fill="#378ADD" opacity=".7"/>
+          <rect x="75" y="184" width="40" height="14" rx="1" fill="#378ADD" opacity=".65"/>
+          <rect x="83" y="168" width="32" height="14" rx="1" fill="#378ADD" opacity=".6"/>
+          <rect x="91" y="152" width="24" height="14" rx="1" fill="#378ADD" opacity=".55"/>
+          <rect x="99" y="136" width="16" height="14" rx="1" fill="#378ADD" opacity=".5"/>
+          <rect x="115" y="232" width="64" height="14" rx="1" fill="#D4537E" opacity=".65"/>
+          <rect x="115" y="216" width="56" height="14" rx="1" fill="#D4537E" opacity=".65"/>
+          <rect x="115" y="200" width="48" height="14" rx="1" fill="#D4537E" opacity=".7"/>
+          <rect x="115" y="184" width="40" height="14" rx="1" fill="#D4537E" opacity=".65"/>
+          <rect x="115" y="168" width="32" height="14" rx="1" fill="#D4537E" opacity=".6"/>
+          <rect x="115" y="152" width="24" height="14" rx="1" fill="#D4537E" opacity=".55"/>
+          <rect x="115" y="136" width="16" height="14" rx="1" fill="#D4537E" opacity=".5"/>
+          <text x="115" y="264" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(144,144,168,0.5)">All age groups present</text>
+          <!-- arrow in middle -->
+          <text x="230" y="130" text-anchor="middle" font-family="sans-serif" font-size="22" fill="rgba(255,179,0,0.6)">→</text>
+          <text x="230" y="148" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,179,0,0.5)">Climate event</text>
+          <text x="230" y="160" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,179,0,0.5)">Young adults leave</text>
+          <!-- after pyramid (hollow middle = no working age) -->
+          <line x1="345" y1="30" x2="345" y2="248" stroke="rgba(255,255,255,.1)" stroke-width=".5"/>
+          <rect x="279" y="232" width="66" height="14" rx="1" fill="#378ADD" opacity=".65"/>
+          <rect x="289" y="216" width="56" height="14" rx="1" fill="#378ADD" opacity=".65"/>
+          <!-- gap = missing 20-45 age group -->
+          <rect x="317" y="200" width="28" height="14" rx="1" fill="#378ADD" opacity=".25"/>
+          <rect x="319" y="184" width="26" height="14" rx="1" fill="#378ADD" opacity=".2"/>
+          <rect x="321" y="168" width="24" height="14" rx="1" fill="#378ADD" opacity=".2"/>
+          <rect x="307" y="152" width="38" height="14" rx="1" fill="#378ADD" opacity=".55"/>
+          <rect x="315" y="136" width="30" height="14" rx="1" fill="#378ADD" opacity=".5"/>
+          <rect x="345" y="232" width="64" height="14" rx="1" fill="#D4537E" opacity=".65"/>
+          <rect x="345" y="216" width="56" height="14" rx="1" fill="#D4537E" opacity=".65"/>
+          <rect x="345" y="200" width="28" height="14" rx="1" fill="#D4537E" opacity=".25"/>
+          <rect x="345" y="184" width="26" height="14" rx="1" fill="#D4537E" opacity=".2"/>
+          <rect x="345" y="168" width="24" height="14" rx="1" fill="#D4537E" opacity=".2"/>
+          <rect x="345" y="152" width="38" height="14" rx="1" fill="#D4537E" opacity=".55"/>
+          <rect x="345" y="136" width="30" height="14" rx="1" fill="#D4537E" opacity=".5"/>
+          <!-- label missing section -->
+          <rect x="280" y="163" width="130" height="44" rx="2" fill="none" stroke="rgba(255,82,82,0.3)" stroke-width="1" stroke-dasharray="3 2"/>
+          <text x="345" y="185" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,82,82,0.5)">working-age gone</text>
+          <text x="345" y="264" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,82,82,0.5)">Empty middle = economic collapse</text>
+        </svg>
+        <div class="img-caption">How climate migration reshapes a population pyramid — the working-age bars (20–45) disappear from communities that experience climate displacement.</div>
+      </div>
+      <div class="qbox" style="margin-top:.85rem"><div class="ql">Pair activity — 5 minutes</div>A coastal village is flooded. Young adults leave for the city. Elderly and children stay. Sketch how both pyramids change. What is the main problem each community faces?</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: TUVALU -->
+<section class="slide" id="s5">
+  <div class="slide-num">05</div>
+  <div class="session-tag"><span class="dot" style="background:var(--cor)"></span><span style="color:var(--cor)">Session 3</span><span style="color:var(--txt3)">·</span><span style="color:var(--txt2)">When a country's pyramid disappears entirely</span></div>
+  <div class="g2" style="grid-template-columns:1.1fr 0.9fr">
+    <div>
+      <h2 class="h1">Tuvalu &amp; Kiribati: <span style="color:var(--cor)">the ultimate case</span></h2>
+      <p class="lead">Pacific island nations whose entire populations may be forced to relocate permanently — the most extreme demographic consequence of climate change ever recorded.</p>
+      <!-- Tuvalu illustrated SVG -->
+      <div class="img-box">
+        <svg viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg">
+          <rect width="520" height="220" fill="#070e18"/>
+          <!-- ocean -->
+          <rect x="0" y="100" width="520" height="120" fill="#0a1628"/>
+          <!-- water waves -->
+          <path d="M0,110 Q40,100 80,110 Q120,120 160,110 Q200,100 240,110 Q280,120 320,110 Q360,100 400,110 Q440,120 480,110 Q510,102 520,107" fill="none" stroke="rgba(0,180,220,0.25)" stroke-width="1.5"/>
+          <path d="M0,125 Q50,115 100,125 Q150,135 200,125 Q250,115 300,125 Q350,135 400,125 Q450,115 500,123" fill="none" stroke="rgba(0,180,220,0.18)" stroke-width="1"/>
+          <!-- island 1 - narrow strip just above water -->
+          <ellipse cx="130" cy="100" rx="90" ry="8" fill="#1a3a1a"/>
+          <ellipse cx="130" cy="98" rx="86" ry="6" fill="#1e4a1e"/>
+          <!-- palm trees on island 1 -->
+          <line x1="100" y1="98" x2="96" y2="70" stroke="#2d5a2d" stroke-width="2"/>
+          <ellipse cx="93" cy="67" rx="9" ry="5" fill="#2d7a2d" opacity=".8"/>
+          <line x1="130" y1="98" x2="128" y2="65" stroke="#2d5a2d" stroke-width="2"/>
+          <ellipse cx="125" cy="62" rx="10" ry="5" fill="#2d7a2d" opacity=".8"/>
+          <line x1="160" y1="98" x2="163" y2="68" stroke="#2d5a2d" stroke-width="2"/>
+          <ellipse cx="166" cy="65" rx="9" ry="5" fill="#2d7a2d" opacity=".8"/>
+          <!-- island 2 - smaller -->
+          <ellipse cx="350" cy="103" rx="60" ry="6" fill="#1a3a1a"/>
+          <ellipse cx="350" cy="101" rx="57" ry="5" fill="#1e4a1e"/>
+          <line x1="340" y1="101" x2="337" y2="74" stroke="#2d5a2d" stroke-width="2"/>
+          <ellipse cx="334" cy="71" rx="8" ry="4" fill="#2d7a2d" opacity=".8"/>
+          <line x1="362" y1="101" x2="364" y2="76" stroke="#2d5a2d" stroke-width="2"/>
+          <ellipse cx="366" cy="73" rx="8" ry="4" fill="#2d7a2d" opacity=".8"/>
+          <!-- water rising arrows -->
+          <text x="260" y="95" text-anchor="middle" font-family="sans-serif" font-size="18" fill="rgba(0,180,220,0.5)">↑</text>
+          <text x="260" y="113" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(0,180,220,0.6)">SEA LEVEL RISING +3.9mm/year</text>
+          <!-- sky gradient -->
+          <rect x="0" y="0" width="520" height="100" fill="#070e18"/>
+          <text x="260" y="30" text-anchor="middle" font-family="sans-serif" font-size="11" fill="rgba(0,229,255,0.4)" letter-spacing="3">TUVALU — FUNAFUTI ATOLL</text>
+          <text x="260" y="48" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(255,82,82,0.5)">Average elevation: &lt; 2 meters above sea level</text>
+          <!-- dashed line = 2m mark -->
+          <line x1="20" y1="95" x2="500" y2="95" stroke="rgba(255,82,82,0.3)" stroke-width=".8" stroke-dasharray="4 3"/>
+          <text x="506" y="98" font-family="sans-serif" font-size="7" fill="rgba(255,82,82,0.5)">2m</text>
+          <!-- flooded house on right -->
+          <rect x="420" y="88" width="24" height="18" fill="#1a2a1a" opacity=".6"/>
+          <polygon points="420,88 432,78 444,88" fill="#243424" opacity=".6"/>
+          <rect x="424" y="97" width="6" height="9" fill="#0a1628"/>
+          <!-- water over the house bottom -->
+          <rect x="416" y="100" width="34" height="6" fill="#0a1628" opacity=".7"/>
+          <text x="432" y="115" text-anchor="middle" font-family="sans-serif" font-size="7" fill="rgba(255,82,82,0.5)">flooded</text>
+        </svg>
+        <div class="img-caption">Tuvalu — low-lying Pacific atoll nation. The red dashed line marks 2 meters above sea level. Most of the country is below this line. Source: Illustrated based on NASA sea level data.</div>
+      </div>
+      <div class="qbox" style="margin-top:.85rem"><div class="ql">Discussion question</div>If Tuvalu's 11,000 people move to New Zealand, what happens to New Zealand's pyramid? Does a nation still exist if its land is underwater?</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <div class="fact"><div class="fact-ic" style="background:var(--cdim);color:var(--cyan)">ELV</div><div class="fact-bd"><h4>Less than 2 meters above sea level</h4><p>Average elevation across all of Tuvalu. Highest point: only 4.6 m. The entire country is essentially flat — and surrounded by a rising ocean.</p></div></div>
+      <div class="fact"><div class="fact-ic" style="background:var(--cdim2);color:var(--cor)">RISE</div><div class="fact-bd"><h4>Sea level rising 3.9 mm per year</h4><p>Nearly twice the global average in Tuvalu's waters. At this rate, <strong>95% of the capital Funafuti could be regularly flooded by 2100</strong> (NASA projection).</p></div></div>
+      <div class="fact"><div class="fact-ic" style="background:var(--adim);color:var(--amb)">2023</div><div class="fact-bd"><h4>Historic agreement with New Zealand</h4><p>Tuvalu signed a formal agreement allowing all 11,000 citizens to migrate and receive New Zealand residency — the first time in history a nation prepared to relocate its entire population due to climate change.</p></div></div>
+      <div class="fact"><div class="fact-ic" style="background:var(--gdim);color:var(--grn)">2025</div><div class="fact-bd"><h4>The UN ruled: a nation can survive without land</h4><p>The International Court of Justice ruled in 2025 that Tuvalu remains a nation-state with rights over its ocean resources and a seat at the UN — even if its islands disappear underwater.</p></div></div>
+      <div class="fact"><div class="fact-ic" style="background:var(--pdim);color:var(--pur)">120K</div><div class="fact-bd"><h4>Kiribati: 120,000 people at equal risk</h4><p>The larger neighbor faces the same existential threat. The Kiribati government has already purchased land in Fiji as a potential future home for its population.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SESSION 4 DIVIDER -->
+<div class="sec-div">
+  <div class="sd-tag" style="color:var(--amb)">Session 4</div>
+  <div class="sd-line" style="background:linear-gradient(to right,rgba(255,179,0,.3),transparent)"></div>
+  <div class="sd-meta">Thursday · Vulnerable populations &amp; climate migration</div>
+</div>
+
+<!-- SLIDE 6: SESSION 4 TITLE -->
+<section class="slide" id="s6">
+  <div class="slide-num">06</div>
+  <div class="g2" style="align-items:center">
+    <div>
+      <!-- Illustrated SVG: drought landscape -->
+      <div class="img-box">
+        <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="300" fill="#120c06"/>
+          <!-- sky -->
+          <rect x="0" y="0" width="500" height="180" fill="#1a1006"/>
+          <!-- sun harsh -->
+          <circle cx="400" cy="50" r="35" fill="#ff8c00" opacity=".25"/>
+          <circle cx="400" cy="50" r="22" fill="#ffb300" opacity=".35"/>
+          <!-- cracked earth pattern -->
+          <rect x="0" y="180" width="500" height="120" fill="#2a1a08"/>
+          <!-- crack lines -->
+          <path d="M50,185 L70,210 L40,240 M70,210 L100,230 L120,260" fill="none" stroke="#1a0e04" stroke-width="1.5"/>
+          <path d="M150,190 L130,215 L160,245 M130,215 L100,230" fill="none" stroke="#1a0e04" stroke-width="1.5"/>
+          <path d="M220,185 L240,218 L210,250 M240,218 L270,235 L260,265" fill="none" stroke="#1a0e04" stroke-width="1.5"/>
+          <path d="M320,188 L300,220 L330,248 M300,220 L270,235" fill="none" stroke="#1a0e04" stroke-width="1.5"/>
+          <path d="M390,192 L410,222 L380,252 M410,222 L440,238" fill="none" stroke="#1a0e04" stroke-width="1.5"/>
+          <path d="M460,195 L450,228 L470,255" fill="none" stroke="#1a0e04" stroke-width="1.5"/>
+          <path d="M30,220 L60,240 L80,270" fill="none" stroke="#1a0e04" stroke-width="1"/>
+          <path d="M170,225 L200,248 L185,272" fill="none" stroke="#1a0e04" stroke-width="1"/>
+          <path d="M350,230 L370,258" fill="none" stroke="#1a0e04" stroke-width="1"/>
+          <!-- dead tree -->
+          <line x1="100" y1="180" x2="100" y2="130" stroke="#2d1a06" stroke-width="3"/>
+          <line x1="100" y1="155" x2="75" y2="140" stroke="#2d1a06" stroke-width="2"/>
+          <line x1="100" y1="145" x2="125" y2="132" stroke="#2d1a06" stroke-width="2"/>
+          <!-- dry riverbed -->
+          <path d="M0,200 Q80,210 160,205 Q240,200 320,208 Q400,215 500,205" fill="none" stroke="#1a0e04" stroke-width="8" opacity=".5"/>
+          <!-- heat haze -->
+          <rect x="0" y="160" width="500" height="25" fill="rgba(255,140,0,0.04)"/>
+          <!-- labels -->
+          <text x="250" y="40" text-anchor="middle" font-family="sans-serif" font-size="11" fill="rgba(255,140,0,0.5)" letter-spacing="3">DROUGHT — SONORA, MEXICO</text>
+          <text x="250" y="58" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(144,100,0,0.5)">85% of Mexico faced extreme drought in 2021</text>
+          <!-- temperature indicator -->
+          <text x="450" y="100" text-anchor="middle" font-family="sans-serif" font-size="22" fill="rgba(255,82,82,0.6)">45°C</text>
+          <text x="450" y="116" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,82,82,0.4)">extreme heat</text>
+        </svg>
+        <div class="img-caption">Illustration of extreme drought conditions in northern Mexico. In 2021, nearly 85% of Mexico faced drought — the worst in 30 years. Source: NASA Earth Observatory data.</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);margin-bottom:1.1rem;display:flex;align-items:center;gap:8px"><span style="width:24px;height:1px;background:var(--amb);display:inline-block"></span>Session 4 · Thursday</div>
+      <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,4.5vw,4rem);letter-spacing:.03em;line-height:1;margin-bottom:1.25rem">Who suffers <span style="color:var(--amb)">most?</span></h1>
+      <p style="font-size:.95rem;color:var(--txt2);line-height:1.7;margin-bottom:1.75rem;max-width:440px">Climate change doesn't strike everyone equally. Your age, income, and location determine your risk — and the population pyramid shows you exactly where vulnerability lives.</p>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <span style="font-size:.7rem;font-weight:500;padding:4px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--txt2)">Vulnerable populations</span>
+        <span style="font-size:.7rem;font-weight:500;padding:4px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--txt2)">Climate migration</span>
+        <span style="font-size:.7rem;font-weight:500;padding:4px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--txt2)">Mexico case study</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: VULNERABLE GROUPS -->
+<section class="slide" id="s7">
+  <div class="slide-num">07</div>
+  <div class="session-tag"><span class="dot" style="background:var(--amb)"></span><span style="color:var(--amb)">Session 4</span><span style="color:var(--txt3)">·</span><span style="color:var(--txt2)">The most vulnerable groups</span></div>
+  <h2 class="h1">Who is most vulnerable to <span style="color:var(--amb)">climate change?</span></h2>
+  <p class="lead" style="margin-bottom:1rem">These groups appear directly on the population pyramid — which means the pyramid itself is a vulnerability map.</p>
+  <div class="g22">
+    <div class="vuln-card">
+      <div class="vuln-top"><span class="pill" style="background:var(--cdim2);color:var(--cor)">Elderly 65+</span><span class="vuln-zone">Top of the pyramid ↑</span></div>
+      <h3 style="font-size:.86rem;font-weight:500;margin-bottom:.35rem">The elderly cannot escape heat</h3>
+      <p style="font-size:.75rem;color:var(--txt2);line-height:1.6">The body's ability to regulate temperature declines with age. The elderly are far more likely to die during heatwaves, and more likely to have chronic illness worsened by extreme weather. They are often less mobile — they cannot flee easily.</p>
+      <div class="vuln-stat"><strong>Real data:</strong> During Europe's 2003 heatwave, ~70,000 people died. The majority were elderly. France alone lost nearly 15,000 people in two weeks.</div>
+    </div>
+    <div class="vuln-card">
+      <div class="vuln-top"><span class="pill" style="background:var(--cdim);color:var(--cyan)">Children 0–5</span><span class="vuln-zone">Base of the pyramid ↓</span></div>
+      <h3 style="font-size:.86rem;font-weight:500;margin-bottom:.35rem">Children depend entirely on adults</h3>
+      <p style="font-size:.75rem;color:var(--txt2);line-height:1.6">Young children cannot regulate temperature or make survival decisions. Contaminated water after floods causes fatal disease. Food insecurity causes malnutrition — permanent developmental damage in the first 1,000 days of life.</p>
+      <div class="vuln-stat"><strong>UNICEF data:</strong> Children in the most climate-vulnerable countries face up to 7× more heatwaves and 3× more river floods than children born in 1960.</div>
+    </div>
+    <div class="vuln-card">
+      <div class="vuln-top"><span class="pill" style="background:var(--adim);color:var(--amb)">Rural poor</span><span class="vuln-zone">All age groups</span></div>
+      <h3 style="font-size:.86rem;font-weight:500;margin-bottom:.35rem">Rural communities lose everything at once</h3>
+      <p style="font-size:.75rem;color:var(--txt2);line-height:1.6">A drought doesn't just make life uncomfortable — it destroys the harvest, eliminates income, and removes the food supply simultaneously. Fewer resources to adapt or relocate. Government disaster response reaches cities first, rural areas last or never.</p>
+      <div class="vuln-stat"><strong>Mexico context:</strong> States like Oaxaca, Chiapas, and Guerrero have large indigenous and rural populations with very limited adaptive capacity.</div>
+    </div>
+    <div class="vuln-card">
+      <div class="vuln-top"><span class="pill" style="background:var(--gdim);color:var(--grn)">Informal workers</span><span class="vuln-zone">Working age (20–50)</span></div>
+      <h3 style="font-size:.86rem;font-weight:500;margin-bottom:.35rem">Outdoor workers cannot shelter from heat</h3>
+      <p style="font-size:.75rem;color:var(--txt2);line-height:1.6">Construction workers, street vendors, agricultural laborers, and delivery workers cannot work from home or in air-conditioned offices. Extreme heat directly cuts their ability to work and their income. No formal protections, no sick leave, no savings.</p>
+      <div class="vuln-stat"><strong>Mexico context:</strong> ~56% of Mexico's workforce is in the informal economy — one of the highest rates in Latin America.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: MEXICO FRONTLINES -->
+<section class="slide" id="s8">
+  <div class="slide-num">08</div>
+  <div class="session-tag"><span class="dot" style="background:var(--amb)"></span><span style="color:var(--amb)">Session 4</span><span style="color:var(--txt3)">·</span><span style="color:var(--txt2)">Mexico's three climate frontlines</span></div>
+  <h2 class="h1">Mexico's three <span style="color:var(--amb)">climate frontlines</span></h2>
+  <p class="lead" style="margin-bottom:1rem">Mexico is essentially three countries in terms of climate risk — and each threat affects a different part of the population pyramid.</p>
+  <div class="g3">
+    <!-- Drought - North -->
+    <div class="fl-card">
+      <div class="fl-img-wrap">
+        <svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="160" fill="#1a0e04"/>
+          <rect x="0" y="90" width="300" height="70" fill="#2a1508"/>
+          <path d="M0,92 L40,88 L80,94 L120,89 L160,93 L200,88 L240,92 L280,87 L300,90" fill="none" stroke="#1a0c04" stroke-width="1"/>
+          <path d="M10,95 L30,108 L15,128 M30,108 L55,120 M80,98 L60,118 L85,140 M60,118 L35,130" fill="none" stroke="#120a02" stroke-width="1.5"/>
+          <path d="M140,96 L160,115 L135,138 M160,115 L185,128" fill="none" stroke="#120a02" stroke-width="1.5"/>
+          <path d="M210,94 L230,112 L205,136 M230,112 L258,124" fill="none" stroke="#120a02" stroke-width="1.5"/>
+          <line x1="55" y1="90" x2="52" y2="62" stroke="#2d1a06" stroke-width="2"/>
+          <line x1="52" y1="75" x2="42" y2="66" stroke="#2d1a06" stroke-width="1.5"/>
+          <circle cx="240" cy="35" r="20" fill="#ff8c00" opacity=".2"/>
+          <circle cx="240" cy="35" r="13" fill="#ffb300" opacity=".3"/>
+          <text x="150" y="25" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,140,0,0.6)" letter-spacing="2">THE NORTH — DROUGHT</text>
+          <text x="150" y="40" text-anchor="middle" font-family="sans-serif" font-size="7" fill="rgba(255,140,0,0.4)">Sonora · Chihuahua · Coahuila</text>
+        </svg>
+        <span class="fl-badge-abs" style="background:rgba(255,179,0,.2);color:var(--amb)">DROUGHT</span>
+      </div>
+      <div class="fl-body">
+        <h3 style="color:var(--amb)">Northern Mexico</h3>
+        <p>Climate change is intensifying droughts. In 2021, nearly 85% of Mexico faced drought — the worst in 30 years. The Rio Bravo reached critically low levels. Agriculture collapsed in key farming states.</p>
+        <div class="fl-eff"><strong style="color:var(--txt2)">Pyramid effect:</strong> Empties working-age bars (25–45) from rural towns. Young adults migrate to cities or the US. Tarahumara and other indigenous communities face severe food insecurity.</div>
+      </div>
+    </div>
+    <!-- Flooding - Coasts -->
+    <div class="fl-card">
+      <div class="fl-img-wrap">
+        <svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="160" fill="#061018"/>
+          <!-- stormy sky -->
+          <rect x="0" y="0" width="300" height="100" fill="#061018"/>
+          <ellipse cx="80" cy="30" rx="60" ry="20" fill="#0e1e2a" opacity=".9"/>
+          <ellipse cx="160" cy="20" rx="70" ry="22" fill="#0e2030" opacity=".9"/>
+          <ellipse cx="240" cy="35" rx="55" ry="18" fill="#0e1e2a" opacity=".9"/>
+          <!-- lightning -->
+          <path d="M160,15 L148,40 L155,40 L143,65" fill="none" stroke="rgba(0,229,255,0.4)" stroke-width="1.5"/>
+          <!-- flooded area -->
+          <rect x="0" y="95" width="300" height="65" fill="#0a1e30"/>
+          <!-- water surface -->
+          <path d="M0,98 Q30,93 60,98 Q90,103 120,97 Q150,92 180,97 Q210,103 240,97 Q270,92 300,97" fill="none" stroke="rgba(0,180,220,0.4)" stroke-width="1.5"/>
+          <path d="M0,108 Q40,103 80,108 Q120,113 160,107 Q200,102 240,107 Q270,111 300,107" fill="none" stroke="rgba(0,180,220,0.25)" stroke-width="1"/>
+          <!-- partially submerged houses -->
+          <rect x="40" y="82" width="28" height="25" fill="#0e1e10" opacity=".7"/>
+          <polygon points="40,82 54,72 68,82" fill="#122012" opacity=".7"/>
+          <rect x="44" y="97" width="20" height="10" fill="#0a1628"/>
+          <rect x="130" y="78" width="32" height="28" fill="#0e1e10" opacity=".7"/>
+          <polygon points="130,78 146,66 162,78" fill="#122012" opacity=".7"/>
+          <rect x="134" y="97" width="24" height="9" fill="#0a1628"/>
+          <rect x="220" y="84" width="26" height="22" fill="#0e1e10" opacity=".6"/>
+          <polygon points="220,84 233,73 246,84" fill="#122012" opacity=".6"/>
+          <rect x="224" y="97" width="18" height="9" fill="#0a1628"/>
+          <text x="150" y="22" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(0,229,255,0.55)" letter-spacing="2">COASTS — FLOODING</text>
+          <text x="150" y="37" text-anchor="middle" font-family="sans-serif" font-size="7" fill="rgba(0,180,220,0.4)">Tabasco · Veracruz · Guerrero</text>
+        </svg>
+        <span class="fl-badge-abs" style="background:rgba(0,229,255,.12);color:var(--cyan)">FLOODING</span>
+      </div>
+      <div class="fl-body">
+        <h3 style="color:var(--cyan)">Coastal Mexico</h3>
+        <p>Warmer oceans intensify hurricanes. In 2020, two hurricanes hit Tabasco in the same week — over 1 million people affected, 70% of the state underwater. Coastal communities face repeated, permanent displacement.</p>
+        <div class="fl-eff"><strong style="color:var(--txt2)">Pyramid effect:</strong> Repeated flooding causes permanent out-migration. Young mobile adults leave; elderly stay. Communities progressively age and lose economic capacity.</div>
+      </div>
+    </div>
+    <!-- Heat - Cities -->
+    <div class="fl-card">
+      <div class="fl-img-wrap">
+        <svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="160" fill="#120a06"/>
+          <!-- city blocks with heat haze -->
+          <rect x="0" y="60" width="300" height="100" fill="#1a0e08"/>
+          <rect x="10" y="90" width="20" height="70" fill="#221408"/>
+          <rect x="35" y="70" width="28" height="90" fill="#261808"/>
+          <rect x="68" y="55" width="32" height="105" fill="#281a0a"/>
+          <rect x="105" y="40" width="36" height="120" fill="#2a1c0c"/>
+          <rect x="146" y="65" width="28" height="95" fill="#261808"/>
+          <rect x="179" y="48" width="34" height="112" fill="#281a0a"/>
+          <rect x="218" y="75" width="24" height="85" fill="#221408"/>
+          <rect x="247" y="58" width="30" height="102" fill="#261808"/>
+          <rect x="282" y="80" width="18" height="80" fill="#221408"/>
+          <!-- windows glowing red-orange from heat -->
+          <rect x="112" y="50" width="6" height="4" fill="#ff5500" opacity=".3"/>
+          <rect x="122" y="50" width="6" height="4" fill="#ff8c00" opacity=".25"/>
+          <rect x="112" y="62" width="6" height="4" fill="#ff8c00" opacity=".2"/>
+          <rect x="186" y="58" width="6" height="4" fill="#ff5500" opacity=".28"/>
+          <rect x="196" y="58" width="6" height="4" fill="#ff8c00" opacity=".22"/>
+          <rect x="74" y="65" width="6" height="4" fill="#ff8c00" opacity=".2"/>
+          <!-- heat shimmer lines -->
+          <path d="M0,55 Q50,50 100,56 Q150,62 200,55 Q250,49 300,55" fill="none" stroke="rgba(255,100,0,0.08)" stroke-width="3"/>
+          <path d="M0,48 Q60,42 120,49 Q180,55 240,48 Q270,43 300,48" fill="none" stroke="rgba(255,100,0,0.06)" stroke-width="3"/>
+          <path d="M0,41 Q70,35 140,42 Q210,48 280,41 L300,42" fill="none" stroke="rgba(255,100,0,0.05)" stroke-width="3"/>
+          <!-- thermometer -->
+          <rect x="258" y="5" width="6" height="40" rx="3" fill="#2a1a0a" stroke="rgba(255,82,82,0.4)" stroke-width=".8"/>
+          <rect x="260" y="25" width="2" height="20" rx="1" fill="#ff5252" opacity=".7"/>
+          <circle cx="261" cy="45" r="4" fill="#ff5252" opacity=".7"/>
+          <text x="272" y="30" font-family="sans-serif" font-size="9" fill="rgba(255,82,82,0.7)">45°C</text>
+          <text x="150" y="22" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,100,0,0.55)" letter-spacing="2">CITIES — EXTREME HEAT</text>
+          <text x="150" y="37" text-anchor="middle" font-family="sans-serif" font-size="7" fill="rgba(255,100,0,0.4)">CDMX · Monterrey · Mexicali</text>
+        </svg>
+        <span class="fl-badge-abs" style="background:rgba(255,82,82,.15);color:var(--cor)">HEAT</span>
+      </div>
+      <div class="fl-body">
+        <h3 style="color:var(--cor)">Mexican cities</h3>
+        <p>Urban "heat island effect" makes cities significantly hotter than surrounding areas. Mexicali and Hermosillo regularly exceed 45°C in summer. Mexico City set heat records despite its altitude. Number of extreme heat days increasing every decade.</p>
+        <div class="fl-eff"><strong style="color:var(--txt2)">Pyramid effect:</strong> Increases mortality in 65+ bars. Reduces productivity of outdoor workers (20–50 bars). Deepens inequality between rich and poor neighborhoods.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: GROUP ACTIVITY -->
+<section class="slide" id="s9">
+  <div class="slide-num">09</div>
+  <div class="session-tag"><span class="dot" style="background:var(--amb)"></span><span style="color:var(--amb)">Session 4</span><span style="color:var(--txt3)">·</span><span style="color:var(--txt2)">Group activity</span></div>
+  <h2 class="h1">Group challenge: how does climate change <span style="color:var(--cyan)">reshape a pyramid?</span></h2>
+  <div style="display:flex;align-items:flex-start;gap:2rem;margin-bottom:1.25rem;flex-wrap:wrap">
+    <div style="flex:1;min-width:260px">
+      <p style="font-size:.82rem;color:var(--txt2);margin-bottom:.7rem">Each group receives one scenario. Use everything from this week.</p>
+      <ol style="padding-left:1.1rem;display:flex;flex-direction:column;gap:.3rem">
+        <li style="font-size:.8rem;color:var(--txt2);line-height:1.6"><strong style="color:var(--txt);font-weight:500">Read your scenario carefully.</strong> Identify who lives there and what the climate event is.</li>
+        <li style="font-size:.8rem;color:var(--txt2);line-height:1.6"><strong style="color:var(--txt);font-weight:500">Sketch the pyramid before and after.</strong> Doesn't need to be perfect — just logical.</li>
+        <li style="font-size:.8rem;color:var(--txt2);line-height:1.6"><strong style="color:var(--txt);font-weight:500">Identify which age groups</strong> are most affected and explain why.</li>
+        <li style="font-size:.8rem;color:var(--txt2);line-height:1.6"><strong style="color:var(--txt);font-weight:500">Name one specific problem</strong> the community will face as a result.</li>
+        <li style="font-size:.8rem;color:var(--txt2);line-height:1.6"><strong style="color:var(--txt);font-weight:500">Present to the class in 1 minute.</strong></li>
+      </ol>
+    </div>
+    <div style="background:var(--cdim);border:1px solid rgba(0,229,255,.2);border-radius:8px;padding:.85rem 1.1rem;text-align:center;flex-shrink:0">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.06em;color:var(--cyan);line-height:1">8</div>
+      <div style="font-size:.62rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase">Minutes</div>
+    </div>
+  </div>
+  <div class="g3">
+    <div class="sc-card">
+      <div class="sc-hd" style="border-bottom:1px solid rgba(0,229,255,.1)"><div class="sc-lt" style="background:var(--cdim);color:var(--cyan)">A</div><div class="sc-ttl">The flooded coast</div></div>
+      <div class="sc-body"><p>A fishing village of 8,000 people on the Gulf coast has been repeatedly flooded by increasingly intense hurricanes. After the third major flood in 5 years, most young adults (20–40) permanently relocate to Veracruz city. Elderly residents and families with very young children largely stay because they cannot afford to leave.</p><span class="pill" style="background:var(--cdim);color:var(--cyan)">How does the pyramid change? What is the main problem in 10 years?</span></div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-hd" style="border-bottom:1px solid rgba(255,179,0,.1)"><div class="sc-lt" style="background:var(--adim);color:var(--amb)">B</div><div class="sc-ttl">The drought town</div></div>
+      <div class="sc-body"><p>A farming community of 12,000 people in Sonora has lost 70% of its agricultural water supply over the past decade due to prolonged drought. Families with school-age children (parents 25–45, children 5–15) have migrated to Hermosillo in search of work. Single elderly residents have stayed on their land.</p><span class="pill" style="background:var(--adim);color:var(--amb)">Who stays? Who leaves? What happens to the local school?</span></div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-hd" style="border-bottom:1px solid rgba(105,240,174,.1)"><div class="sc-lt" style="background:var(--gdim);color:var(--grn)">C</div><div class="sc-ttl">The receiving city</div></div>
+      <div class="sc-body"><p>A mid-size city of 400,000 people in central Mexico has received ~50,000 climate migrants from northern and coastal regions over 5 years. The migrants are predominantly young working-age adults (20–40) and families with young children (0–10). Infrastructure is under visible strain.</p><span class="pill" style="background:var(--gdim);color:var(--grn)">How does the city's pyramid change? What are the 2 most urgent needs?</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: CLOSING SYNTHESIS -->
+<section class="slide" id="s10">
+  <div class="slide-num">10</div>
+  <div class="session-tag"><span class="dot" style="background:var(--grn)"></span><span style="color:var(--grn)">Session 4</span><span style="color:var(--txt3)">·</span><span style="color:var(--txt2)">Synthesis — the pyramid as a climate tool</span></div>
+  <div class="g2">
+    <div>
+      <h2 class="h1">The pyramid as a <span style="color:var(--grn)">climate tool</span></h2>
+      <p style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.2rem,2vw,1.6rem);letter-spacing:.04em;line-height:1.2;color:var(--txt);margin:.75rem 0 1.25rem">A pyramid doesn't just show where people <span style="color:var(--cyan)">ARE</span> — it shows who is <span style="color:var(--amb)">AT RISK</span> and what a place will <span style="color:var(--grn)">NEED.</span></p>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div class="tk"><div class="tk-num" style="color:var(--cyan)">01</div><div class="tk-bd"><h4>Climate change hits the most vulnerable age groups hardest</h4><p>The elderly at the top and children at the base face the greatest physical risks. They are also the bars that shrink or grow in response to climate mortality events.</p></div></div>
+        <div class="tk"><div class="tk-num" style="color:var(--amb)">02</div><div class="tk-bd"><h4>Climate migration is a demographic event</h4><p>When people move because of climate, they reshape the pyramid of both the place they leave and the place they arrive. Every migration writes itself into the data.</p></div></div>
+        <div class="tk"><div class="tk-num" style="color:var(--grn)">03</div><div class="tk-bd"><h4>Knowing who lives where is the first step in climate planning</h4><p>Before any government can build shelters, design water programs, or expand cities, it needs demographic data. The pyramid is not academic — it is a planning tool.</p></div></div>
+      </div>
+      <div class="hwbox"><div class="hwl">Bridge to Friday</div><p>Think of one specific policy Mexico could implement to protect the most vulnerable group we discussed today. Come ready to argue for it on Friday.</p></div>
+    </div>
+    <div>
+      <!-- Final summary SVG: pyramid + climate icons combined -->
+      <div class="img-box" style="margin-bottom:12px">
+        <svg viewBox="0 0 460 220" xmlns="http://www.w3.org/2000/svg">
+          <rect width="460" height="220" fill="#16161f"/>
+          <!-- Central pyramid -->
+          <text x="230" y="18" text-anchor="middle" font-family="sans-serif" font-size="9" fill="rgba(144,144,168,0.5)" letter-spacing="2">POPULATION PYRAMID AS CLIMATE TOOL</text>
+          <!-- Pyramid shape center -->
+          <line x1="230" y1="30" x2="230" y2="200" stroke="rgba(255,255,255,.1)" stroke-width=".5"/>
+          <rect x="164" y="185" width="66" height="13" rx="1" fill="#378ADD" opacity=".6"/>
+          <rect x="172" y="170" width="58" height="13" rx="1" fill="#378ADD" opacity=".65"/>
+          <rect x="180" y="155" width="50" height="13" rx="1" fill="#378ADD" opacity=".7"/>
+          <rect x="188" y="140" width="42" height="13" rx="1" fill="#378ADD" opacity=".65"/>
+          <rect x="196" y="125" width="34" height="13" rx="1" fill="#378ADD" opacity=".6"/>
+          <rect x="204" y="110" width="26" height="13" rx="1" fill="#378ADD" opacity=".55"/>
+          <rect x="212" y="95" width="18" height="13" rx="1" fill="#378ADD" opacity=".5"/>
+          <rect x="218" y="80" width="12" height="13" rx="1" fill="#378ADD" opacity=".45"/>
+          <rect x="230" y="185" width="64" height="13" rx="1" fill="#D4537E" opacity=".6"/>
+          <rect x="230" y="170" width="56" height="13" rx="1" fill="#D4537E" opacity=".65"/>
+          <rect x="230" y="155" width="48" height="13" rx="1" fill="#D4537E" opacity=".7"/>
+          <rect x="230" y="140" width="40" height="13" rx="1" fill="#D4537E" opacity=".65"/>
+          <rect x="230" y="125" width="32" height="13" rx="1" fill="#D4537E" opacity=".6"/>
+          <rect x="230" y="110" width="24" height="13" rx="1" fill="#D4537E" opacity=".55"/>
+          <rect x="230" y="95" width="16" height="13" rx="1" fill="#D4537E" opacity=".5"/>
+          <rect x="230" y="80" width="12" height="13" rx="1" fill="#D4537E" opacity=".45"/>
+          <!-- Climate annotations -->
+          <!-- Top annotation: heat/elderly -->
+          <line x1="244" y1="86" x2="310" y2="70" stroke="rgba(255,82,82,0.4)" stroke-width=".8"/>
+          <text x="315" y="64" font-family="sans-serif" font-size="8" fill="rgba(255,82,82,0.65)">Elderly — most heat risk</text>
+          <!-- Middle annotation: migration -->
+          <line x1="282" y1="148" x2="330" y2="140" stroke="rgba(255,179,0,0.4)" stroke-width=".8"/>
+          <text x="334" y="144" font-family="sans-serif" font-size="8" fill="rgba(255,179,0,0.65)">Working-age — migrate first</text>
+          <!-- Base annotation: children -->
+          <line x1="298" y1="192" x2="330" y2="200" stroke="rgba(0,229,255,0.4)" stroke-width=".8"/>
+          <text x="334" y="204" font-family="sans-serif" font-size="8" fill="rgba(0,229,255,0.65)">Children — most food risk</text>
+          <!-- Left annotations -->
+          <line x1="162" y1="86" x2="100" y2="70" stroke="rgba(105,240,174,0.4)" stroke-width=".8"/>
+          <text x="14" y="64" font-family="sans-serif" font-size="8" fill="rgba(105,240,174,0.65)">Life expectancy rising</text>
+          <line x1="162" y1="192" x2="100" y2="200" stroke="rgba(179,136,255,0.4)" stroke-width=".8"/>
+          <text x="10" y="204" font-family="sans-serif" font-size="8" fill="rgba(179,136,255,0.65)">Birth rate declining</text>
+        </svg>
+        <div class="img-caption">The population pyramid as a climate planning tool — each zone reveals different vulnerabilities and future needs for public policy and resource allocation.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="dr"><span class="dr-lbl">Mexico informal economy workers</span><span class="dr-val" style="color:var(--cyan)">56% of workforce</span></div>
+        <div class="dr"><span class="dr-lbl">Mexico under extreme drought, 2021</span><span class="dr-val" style="color:var(--amb)">85% of territory</span></div>
+        <div class="dr"><span class="dr-lbl">Tuvalu: sea level rise per year</span><span class="dr-val" style="color:var(--cor)">3.9 mm/year</span></div>
+        <div class="dr"><span class="dr-lbl">Children facing more heatwaves vs 1960</span><span class="dr-val" style="color:var(--grn)">7× more (UNICEF)</span></div>
+        <div class="dr"><span class="dr-lbl">Tuvalu capital flooded by 2100 (projected)</span><span class="dr-val" style="color:var(--cor)">95%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /slides -->
+
+<div class="progress"><div class="progress-fill" id="prog"></div></div>
+
+<script>
+const slideIds=['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'];
+const navBtns=document.querySelectorAll('.nav-btn');
+const slides=document.querySelectorAll('.slide');
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+function updateNav(){
+  let cur='';
+  const sy=window.scrollY+window.innerHeight*.35;
+  slideIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=sy)cur=id;});
+  navBtns.forEach((b,i)=>{b.classList.toggle('active',slideIds[i]===cur);});
+  const first=document.getElementById('s1'),last=document.getElementById('s10');
+  if(first&&last){
+    const total=last.offsetTop+last.offsetHeight-first.offsetTop;
+    const done=window.scrollY-first.offsetTop;
+    document.getElementById('prog').style.width=Math.min(100,Math.max(5,(done/total)*100))+'%';
+  }
+}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.06});
+slides.forEach(s=>obs.observe(s));
+window.addEventListener('scroll',updateNav,{passive:true});
+updateNav();
+</script>
+</body>
+</html>
